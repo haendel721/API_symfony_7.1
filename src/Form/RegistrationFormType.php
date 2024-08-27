@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,6 +26,19 @@ class RegistrationFormType extends AbstractType
             ->add('lot')
             ->add('tel')
             ->add('dateNaissance')
+            ->add('lieuNaissance')
+            ->add('situationFamiliale')
+            ->add('genre', ChoiceType::class, [
+                'choices' => [
+                    'Masculin' => 'masculin',
+                    'Féminin' => 'féminin',
+                    'Non-binaire' => 'non-binaire',
+                ],
+                'placeholder' => 'Sélectionnez votre genre',
+                'expanded' => false, // Menu déroulant
+                'multiple' => false, // Choix unique
+            ])
+            ->add('fonction')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

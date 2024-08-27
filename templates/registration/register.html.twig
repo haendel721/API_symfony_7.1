@@ -25,6 +25,11 @@
         </div><br>
 
         <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Lieu de naissance</span>
+            {{ form_widget(registrationForm.lieuNaissance ,{'attr':{'class':'form form-control'  }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Image</span>
             {{ form_widget(registrationForm.image ,{'attr':{'class':'form form-control' }}) }} <br>
         </div><br>
@@ -33,6 +38,35 @@
             <span class="input-group-text" id="addon-wrapping">E-mail</span>
             {{ form_widget(registrationForm.email ,{'attr':{'class':'form form-control' ,  'placeholder':'exemple@gmail.com' }}) }} <br>
         </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Fonction</span>
+            {{ form_widget(registrationForm.fonction ,{'attr':{'class':'form form-control' ,  'placeholder':'exemple : développeur' }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Situation familiale</span>
+            {{ form_widget(registrationForm.situationFamiliale ,{'attr':{'class':'form form-control' ,  'placeholder':'exemple : développeur' }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Genre</span>
+            {{ form_widget(registrationForm.genre,{'attr':{'class':'form form-control'  }}
+           ) }}
+        </div><br>
+
+    {# <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">Genre</span>
+        <select class="form-select form-control" id="registrationForm_genre" name="registrationForm[genre]">
+            <option value="masculin" {% if registrationForm.genre.vars.value == 'masculin' %}selected{% endif %}>Masculin</option>
+            <option value="féminin" {% if registrationForm.genre.vars.value == 'féminin' %}selected{% endif %}>Féminin</option>
+            <option value="non-binaire" {% if registrationForm.genre.vars.value == 'non-binaire' %}selected{% endif %}>Non-binaire</option>
+        </select>
+    </div><br> #}
+
+
+
+
 
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Domicile</span>

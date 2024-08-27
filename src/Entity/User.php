@@ -52,6 +52,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( length:255, nullable:true)]
     private ?string $image = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $situationFamiliale = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lieuNaissance = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $genre = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $fonction = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -195,6 +207,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getSituationFamiliale(): ?string
+    {
+        return $this->situationFamiliale;
+    }
+
+    public function setSituationFamiliale(string $situationFamiliale): static
+    {
+        $this->situationFamiliale = $situationFamiliale;
+
+        return $this;
+    }
+
+    public function getLieuNaissance(): ?string
+    {
+        return $this->lieuNaissance;
+    }
+
+    public function setLieuNaissance(string $lieuNaissance): static
+    {
+        $this->lieuNaissance = $lieuNaissance;
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): static
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getFonction(): ?string
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(string $fonction): static
+    {
+        $this->fonction = $fonction;
 
         return $this;
     }
