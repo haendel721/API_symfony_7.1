@@ -1,0 +1,24 @@
+// Diagramme d'Objet 1
+digraph {
+	E1 [label="Étudiant
+id: 101
+nom: Dupont
+prenom: Jean
+DateNaissance: 1998-05-20"]
+	C1 [label="Cours
+id: 201
+titre: Mathématiques
+description: Cours de base en mathématiques
+crédit: 5"]
+	I1 [label="Inscription
+id: 301
+dateInscription: 2023-09-01"]
+	N1 [label="Notes
+valeur: 85
+bareme: 100
+description: Examen final"]
+	E1 -> I1 [label=inscrit]
+	I1 -> C1 [label=pour]
+	E1 -> N1 [label=a]
+	N1 -> C1 [label=pour]
+}

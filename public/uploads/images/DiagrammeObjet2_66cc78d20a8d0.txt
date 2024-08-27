@@ -1,0 +1,24 @@
+// Diagramme d'Objet 2
+digraph {
+	E2 [label="Étudiant
+id: 102
+nom: Martin
+prenom: Sophie
+DateNaissance: 1999-03-15"]
+	C2 [label="Cours
+id: 202
+titre: Physique
+description: Cours de base en physique
+crédit: 4"]
+	I2 [label="Inscription
+id: 302
+dateInscription: 2023-09-01"]
+	N2 [label="Notes
+valeur: 90
+bareme: 100
+description: Examen mi-parcours"]
+	E2 -> I2 [label=inscrit]
+	I2 -> C2 [label=pour]
+	E2 -> N2 [label=a]
+	N2 -> C2 [label=pour]
+}

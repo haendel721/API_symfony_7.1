@@ -1,0 +1,59 @@
+{% extends 'registre.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container security-form">
+    <div class="login-form">
+    <h1>Register</h1>
+<br>
+    {{ form_errors(registrationForm) }}
+    {{ form_start(registrationForm) }}
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Nom</span>
+            {{ form_widget(registrationForm.name ,{'attr':{'class':'form form-control' ,  'placeholder':'saisit votre nom' }}) }} 
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Prénom</span>
+            {{ form_widget(registrationForm.surname ,{'attr':{'class':'form form-control' ,  'placeholder':'saisit votre prénom' }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Date de naissance</span>
+            {{ form_widget(registrationForm.dateNaissance ,{'attr':{'class':'form form-control' }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Image</span>
+            {{ form_widget(registrationForm.image ,{'attr':{'class':'form form-control' }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">E-mail</span>
+            {{ form_widget(registrationForm.email ,{'attr':{'class':'form form-control' ,  'placeholder':'exemple@gmail.com' }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Domicile</span>
+            {{ form_widget(registrationForm.lot ,{'attr':{'class':'form form-control'  }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Phone number</span>
+            {{ form_widget(registrationForm.tel ,{'attr':{'class':'form form-control'  }}) }} <br>
+        </div><br>
+
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Mot de pass</span>
+            {{ form_widget(registrationForm.plainPassword, {
+            label: 'Password'
+        } ,{'attr':{'class':'form form-control' }})  }}<br>
+        </div><br>
+        {{ form_row(registrationForm.agreeTerms ,{'attr':{'class':'form-check-input' }}) }}<br> 
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    {{ form_end(registrationForm) }}
+    </div>
+</div>
+{% endblock %}
