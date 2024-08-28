@@ -22,7 +22,7 @@
                 <td>{{ site.id }}</td>
                 <td>{{ site.name }}</td>
                 <td><a href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
-                <td>{{ site.category }}</td>
+                <td>{{ site.categorySite.name }}</td>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                 <td>
                     <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CategorySite{% endblock %}
+
+{% block body %}
+    <h1>Create new CategorySite</h1>
+
+    {{ include('category_site/_form.html.twig') }}
+
+    <a href="{{ path('app_category_site_index') }}">back to list</a>
+{% endblock %}

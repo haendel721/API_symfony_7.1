@@ -22,8 +22,12 @@ class Site
     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $category = null;
+    // #[ORM\Column(length: 255)]
+    // private ?string $category = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CategorySite $categorySite = null;
 
     public function getId(): ?int
     {
@@ -66,14 +70,26 @@ class Site
         return $this;
     }
 
-    public function getCategory(): ?string
+    // public function getCategory(): ?string
+    // {
+    //     return $this->category;
+    // }
+
+    // public function setCategory(string $category): static
+    // {
+    //     $this->category = $category;
+
+    //     return $this;
+    // }
+
+    public function getCategorySite(): ?CategorySite
     {
-        return $this->category;
+        return $this->categorySite;
     }
 
-    public function setCategory(string $category): static
+    public function setCategorySite(?CategorySite $categorySite): static
     {
-        $this->category = $category;
+        $this->categorySite = $categorySite;
 
         return $this;
     }
