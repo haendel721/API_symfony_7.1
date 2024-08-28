@@ -17,13 +17,20 @@ security:
             security: false
         main:
             # anonymous: true
+            entry_point: form_login
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\UserAuthenticator
+            form_login:
+                # Page de connexion
+                login_path: /login
+                # URL vers laquelle l'utilisateur sera redirigé après une connexion réussie
+                default_target_path: /user
+                # ... autres configurations ...
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_login
 
             remember_me:
                 secret: '%kernel.secret%'
@@ -44,6 +51,7 @@ security:
     access_control:
         # Exiger l'authentification pour certaines routes
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/editor, roles: ROLE_EDITOR }
         # - { path: ^/profile, roles: ROLE_USER }
 
 

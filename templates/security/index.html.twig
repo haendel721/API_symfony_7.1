@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil users{% endblock %}
+
+{% block body %}
+<div class="user-container">
+    <h1>Utilisateur</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Profil</th>
+                <th>id</th>
+                <th>E-mail</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Lieu de naissance</th>
+                <th>Situation Familiale</th>
+                <th>Fonction</th>
+                <th>Genre</th>
+                <th>Role</th>
+                <th>Tel</th>
+                <th>Domicile</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>
+                    {% if user.image %}
+                        <img src="{{ asset('uploads/images/' ~ user.image) }}" alt="User Image" class="rounded-circle" style="max-width: 100px; max-height: 100px;">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.dateNaissance|date('Y-m-d') }}</td>
+                <td>{{ user.lieuNaissance }}</td>
+                <td>{{ user.situationFamiliale }}</td>
+                <td>{{ user.fonction }}</td>
+                <td>{{ user.genre }}</td>
+                <td>{{ user.roles|join(', ') }}</td>
+                <td>{{ user.tel }}</td>
+                <td>{{ user.lot }}</td>
+                
+                <td>
+                    <a class="btn btn-info" href="{{ path('app_site_show', {'id': user.id}) }}">show</a>
+                    <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': user.id}) }}">delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_register') }}">Create new</a>
+</div>
+{% endblock %}

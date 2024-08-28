@@ -5,3 +5,11 @@ body {
     width: 500px;
     text-align: center;
 }
+.btn-logout{
+    color: aliceblue;
+    text-decoration: none;
+}
+    /* 
+    .citation{
+        margin-left: 5%;
+    } */

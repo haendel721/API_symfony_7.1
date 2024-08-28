@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Site index{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Site index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Url</th>
+                <th>Category</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for site in sites %}
+            <tr>
+                <td>{{ site.id }}</td>
+                <td>{{ site.name }}</td>
+                <td><a href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
+                <td>{{ site.category }}</td>
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                <td>
+                    <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>
+                    <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': site.id}) }}">edit</a>
+                    <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': site.id}) }}">delete</a>
+                </td>
+                {% else %}
+                <td>
+                     <a class="btn btn-outline-primary" href="#">show</a>
+                </td>
+                {% endif %}
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if 'ROLE_ADMIN' in app.user.roles %}
+        <a class="btn btn-primary" href="{{ path('app_site_new') }}">Create new</a>
+    {% else %}
+    {% endif %}
+</div>
+{% endblock %}
