@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
                 
             $this->addFlash('succes', 'Utilisateur enregistré avec succès');
             // do anything else you need here, like send an email
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
             // return $security->login($user, UserAuthenticator::class, 'main');
 
             
