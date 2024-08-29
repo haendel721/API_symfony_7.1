@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypePermission{% endblock %}
+
+{% block body %}
+    <h1>Edit TypePermission</h1>
+
+    {{ include('type_permission/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_type_permission_index') }}">back to list</a>
+
+    {{ include('type_permission/_delete_form.html.twig') }}
+{% endblock %}
