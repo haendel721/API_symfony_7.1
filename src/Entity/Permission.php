@@ -18,6 +18,14 @@ class Permission
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypePermission $typePermission = null;
+
+    #[ORM\Column]
+    private ?bool $isAuthorized = null;
+
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -25,10 +33,6 @@ class Permission
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Site $site = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?TypePermission $typePermission = null;
 
 
     public function getId(): ?int
@@ -44,6 +48,31 @@ class Permission
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+
+    public function getTypePermission(): ?TypePermission
+    {
+        return $this->typePermission;
+    }
+
+    public function setTypePermission(?TypePermission $typePermission): static
+    {
+        $this->typePermission = $typePermission;
+
+        return $this;
+    }
+
+    public function isAuthorized(): ?bool
+    {
+        return $this->isAuthorized;
+    }
+
+    public function setAuthorized(bool $isAuthorized): static
+    {
+        $this->isAuthorized = $isAuthorized;
 
         return $this;
     }
@@ -72,15 +101,4 @@ class Permission
         return $this;
     }
 
-    public function getTypePermission(): ?TypePermission
-    {
-        return $this->typePermission;
-    }
-
-    public function setTypePermission(?TypePermission $typePermission): static
-    {
-        $this->typePermission = $typePermission;
-
-        return $this;
-    }
 }
