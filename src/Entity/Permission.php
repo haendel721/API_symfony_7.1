@@ -19,12 +19,12 @@ class Permission
     private ?\DateTimeImmutable $createdAt = null;
 
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?TypePermission $typePermission = null;
+    // #[ORM\ManyToOne]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?TypePermission $typePermission = null;
 
     #[ORM\Column]
-    private ?bool $isAuthorized = null;
+    private ?bool $isAuthorized = false;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -53,17 +53,17 @@ class Permission
     }
 
 
-    public function getTypePermission(): ?TypePermission
-    {
-        return $this->typePermission;
-    }
+    // public function getTypePermission(): ?TypePermission
+    // {
+    //     return $this->typePermission;
+    // }
 
-    public function setTypePermission(?TypePermission $typePermission): static
-    {
-        $this->typePermission = $typePermission;
+    // public function setTypePermission(?TypePermission $typePermission): static
+    // {
+    //     $this->typePermission = $typePermission;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function isAuthorized(): ?bool
     {
