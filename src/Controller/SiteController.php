@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Site;
 use App\Form\SiteType;
+use App\Repository\PermissionRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,10 +16,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class SiteController extends AbstractController
 {
     #[Route('/', name: 'app_site_index', methods: ['GET'])]
-    public function index(SiteRepository $siteRepository): Response
+    public function index(SiteRepository $siteRepository , PermissionRepository $permissionRepository ): Response
     {
+       
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findAll(),
+            'permissions' => $permissionRepository->findAll(),
         ]);
     }
 
@@ -85,5 +88,35 @@ class SiteController extends AbstractController
             $entityManager->flush();
             $this->addFlash('Danger','Suppression avec succès');
         return $this->redirectToRoute('app_site_index');
+    }
+    private $permissionRepository;
+
+    public function __construct(PermissionRepository $permissionRepository)
+    {
+        $this->permissionRepository = $permissionRepository;
+    }
+    #[Route('/site/{id}', name: 'site_show')]
+    public function afficher(Site $site): Response
+    {
+        $user = $this->getUser(); // Supposons que l'utilisateur est connecté
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('User not authenticated.');
+        }
+
+        // Vérifier les permissions directement dans le contrôleur
+        $permission = $this->permissionRepository->findOneBy([
+            'user' => $user,
+            'site' => $site,
+        ]);
+
+        if (!$permission || !$permission->isAuthorized()) {
+            throw $this->createAccessDeniedException('You are not authorized to access this site.');
+        }
+
+        // Logique pour afficher le site
+        return $this->render('site/show.html.twig', [
+            'site' => $site,
+        ]);
     }
 }

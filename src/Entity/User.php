@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+// use Symfony\Component\Validator\Constraints\Collection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -257,5 +260,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->fonction = $fonction;
 
         return $this;
+    }
+    #[ORM\OneToMany(targetEntity: Permission::class, mappedBy: 'user')]
+    private $permissions;
+
+    public function __construct()
+    {
+        $this->permissions = new ArrayCollection();
+    }
+     /**
+     * @return Collection|Permission[]
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        if ($this->permissions->removeElement($permission)) {
+            // set the owning side to null (unless already changed)
+            if ($permission->getUser() === $this) {
+                $permission->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function hasPermissionToVisit(Site $site): bool
+    {
+        foreach ($this->permissions as $permission) {
+            if ($permission->getSite() === $site && $permission->isAuthorized()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

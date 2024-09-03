@@ -21,7 +21,13 @@
             <tr>
                 <td>{{ site.id }}</td>
                 <td>{{ site.name }}</td>
-                <td><a class="link-success  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ site.url }}" target="_blank">{{ site.url }}</a></td>
+                <td>
+                    {% if app.user.hasPermissionToVisit(site) %}
+                        <a class="link-success  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ site.url }}" target="_blank">{{ site.url }}</a>
+                    {% else %}
+                        {{ site.url }}
+                    {% endif %}
+                </td>
                 <td>{{ site.categorySite.name }}</td>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                 <td>

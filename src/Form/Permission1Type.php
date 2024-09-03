@@ -21,15 +21,15 @@ class Permission1Type extends AbstractType
             ->add('createdAt', null, [
                 'widget' => 'single_text',
             ])
-            ->add('isAuthorized', ChoiceType::class, [
-                'choices' => [
-                    'Authorized' => true,
-                    'Not Authorized' => false,
-                ],
-                'expanded' => true,
-                'multiple' => false,
-                'mapped' => false,
-            ])
+            // ->add('isAuthorized', ChoiceType::class, [
+            //     // 'choices' => [
+            //     //     'Authorized' => true,
+            //     //     'Not Authorized' => false,
+            //     // ],
+            //     'expanded' => true,
+            //     'multiple' => false,
+            //     'mapped' => false,
+            // ])
             // ->add('typePermission', EntityType::class, [
             //     'class' => TypePermission::class,
             //     'choice_label' => 'name',

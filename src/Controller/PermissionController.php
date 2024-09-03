@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Permission;
+use App\Entity\Site;
+use App\Entity\User;
 use App\Form\Permission1Type;
 use App\Repository\PermissionRepository;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,10 +19,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class PermissionController extends AbstractController
 {
     #[Route('/', name: 'app_permission_index', methods: ['GET'])]
-    public function index(PermissionRepository $permissionRepository): Response
+    public function index(PermissionRepository $permissionRepository ): Response
     {
+        $permissions = $permissionRepository->findAllOrderedByName();
         return $this->render('permission/index.html.twig', [
-            'permissions' => $permissionRepository->findAll(),
+            'permissions' => $permissions,
         ]);
     }
 
@@ -77,5 +82,53 @@ class PermissionController extends AbstractController
         }
 
         return $this->redirectToRoute('app_permission_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/suppimer', name: 'supprimer_permission_direct')]
+    public function supprimer(Permission $permission, EntityManagerInterface $entityManager): Response
+    {
+            $entityManager->remove($permission);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_permission_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/assign-permission/{permissionId}', name: 'assign_permission')]
+    public function assignPermission(int $permissionId, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        // Récupérer l'entité à mettre à jour
+        $permission = $entityManager->getRepository(Permission::class)->find($permissionId);
+    
+        if (!$permission) {
+            throw $this->createNotFoundException('Permission not found.');
+        }
+    
+        // Mettre à jour l'autorisation
+        $permission->setAuthorized(true);
+    
+        // Enregistrer les modifications
+        $entityManager->flush();
+    
+        // Rediriger vers la page précédente
+        return $this->redirectToRoute('app_permission_index');
+    }
+    
+    #[Route('/retire-permission/{permissionId}', name: 'retire_permission')]
+    public function retirePermission(int $permissionId, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        // Récupérer l'entité à mettre à jour
+        $permission = $entityManager->getRepository(Permission::class)->find($permissionId);
+    
+        if (!$permission) {
+            throw $this->createNotFoundException('Permission not found.');
+        }
+    
+        // Mettre à jour l'autorisation
+        $permission->setAuthorized(false);
+    
+        // Enregistrer les modifications
+        $entityManager->flush();
+    
+        // Rediriger vers la page précédente
+        return $this->redirectToRoute('app_permission_index');
     }
 }
