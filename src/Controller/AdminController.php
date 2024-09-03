@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Site;
+use App\Entity\Permission;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,5 +25,16 @@ class AdminController extends AbstractController
             'users' => $siteRepository->findAll(),
         ]);
     }
+    // #[Route('/user/permission', name: 'app_user_permision', methods: ['GET'])]
+    // public function hasPermissionToVisit(Site $site): bool
+    // {
+    //     foreach ($this->permissions as $permission) {
+    //         if ($permission->getSite() === $site && $permission->isAuthorized()) {
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
 
 }

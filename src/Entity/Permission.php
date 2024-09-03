@@ -15,8 +15,13 @@ class Permission
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable', nullable: false)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable(); // Définir une valeur par défaut
+    }
 
 
     // #[ORM\ManyToOne]

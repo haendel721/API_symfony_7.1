@@ -16,20 +16,20 @@ class PermissionRepository extends ServiceEntityRepository
         parent::__construct($registry, Permission::class);
     }
 
-    //    /**
-    //     * @return Permission[] Returns an array of Permission objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       /**
+        * @return Permission[] Returns an array of Permission objects
+        */
+       public function findAllOrderedByName(): array
+       {
+           return $this->createQueryBuilder('p')
+            //    ->andWhere('p.exampleField = :val')
+            //    ->setParameter('val', $value)
+               ->orderBy('p.user', 'ASC')
+            //    ->setMaxResults(10)
+               ->getQuery()
+               ->getResult()
+           ;
+       }
 
     //    public function findOneBySomeField($value): ?Permission
     //    {
