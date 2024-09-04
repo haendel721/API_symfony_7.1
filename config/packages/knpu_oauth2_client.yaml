@@ -1,0 +1,47 @@
+knpu_oauth2_client:
+    clients:
+        Google:
+            type: google
+            client_id: '%env(OAUTH_GOOGLE_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_GOOGLE_CLIENT_SECRET)%'
+            redirect_route: connect_google_check
+            redirect_params: {}
+            use_state: true
+        
+        google:
+            type: google
+            client_id: '%env(OAUTH_GOOGLE_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_GOOGLE_CLIENT_SECRET)%'
+            redirect_route: connect_google_check
+
+
+        Instagram:
+            type: generic
+            provider_class: \League\OAuth2\Client\Provider\GenericProvider
+            client_id: '%env(OAUTH_INSTAGRAM_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_INSTAGRAM_CLIENT_SECRET)%'
+            redirect_route: connect_instagram_check
+            redirect_params: {}
+            use_state: true
+            provider_options:
+                urlAuthorize: 'https://api.instagram.com/oauth/authorize'
+                urlAccessToken: 'https://api.instagram.com/oauth/access_token'
+                urlResourceOwnerDetails: 'https://graph.instagram.com/me'
+                scopes: 'user_profile,user_media'
+    
+        Facebook:
+            type: facebook
+            client_id: '%env(OAUTH_FACEBOOK_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_FACEBOOK_CLIENT_SECRET)%'
+            redirect_route: connect_facebook_check
+            graph_api_version: 'v15.0'  # Version de l'API Graph
+            redirect_params: 
+                scope: 'public_profile,email' 
+        facebook:
+            type: facebook
+            client_id: '%env(OAUTH_FACEBOOK_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_FACEBOOK_CLIENT_SECRET)%'
+            redirect_route: connect_facebook_check
+            graph_api_version: 'v15.0'  # Version de l'API Graph
+            redirect_params: 
+                scope: 'public_profile,email' 

@@ -27,6 +27,7 @@
                     {% else %}
                         {{ site.url }}
                     {% endif %}
+                    <a href="{{ path('connect_service_start', {'service': site.name}) }}">Connecter</a>
                 </td>
                 <td>{{ site.categorySite.name }}</td>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
