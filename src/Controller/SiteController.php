@@ -35,6 +35,7 @@ class SiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($site);
             $entityManager->flush();
+            $this->addFlash('success', 'Ajout  de  ' . $site->getName() . ' pour '. $site->getName() . '  avec succes');
 
             return $this->redirectToRoute('app_site_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -61,6 +62,7 @@ class SiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Modification  de  ' . $site->getName() . ' pour '. $site->getName() . '  avec succes');
 
             return $this->redirectToRoute('app_site_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -77,6 +79,7 @@ class SiteController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$site->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($site);
             $entityManager->flush();
+            $this->addFlash('danger', 'Suppression  de  ' . $site->getName() . ' pour '. $site->getName() . '  avec succes');
         }
 
         return $this->redirectToRoute('app_site_index', [], Response::HTTP_SEE_OTHER);
@@ -86,7 +89,7 @@ class SiteController extends AbstractController
     {
             $entityManager->remove($site);
             $entityManager->flush();
-            $this->addFlash('Danger','Suppression avec succès');
+            $this->addFlash('danger', 'Suppression  de  ' . $site->getName() . ' pour '. $site->getName() . '  avec succes');
         return $this->redirectToRoute('app_site_index');
     }
     private $permissionRepository;

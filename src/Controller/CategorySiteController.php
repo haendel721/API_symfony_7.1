@@ -32,6 +32,7 @@ class CategorySiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($categorySite);
             $entityManager->flush();
+            $this->addFlash('success', 'Ajout  de  ' . $categorySite->getName() . ' pour '. $categorySite->getName() . '  avec succes');
 
             return $this->redirectToRoute('app_category_site_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -58,6 +59,7 @@ class CategorySiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('info', 'Modification  de  ' . $categorySite->getName() . ' pour '. $categorySite->getName() . '  avec succes');
 
             return $this->redirectToRoute('app_category_site_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -74,6 +76,7 @@ class CategorySiteController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$categorySite->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($categorySite);
             $entityManager->flush();
+            $this->addFlash('danger', 'Ajout  de  ' . $categorySite->getName() . ' pour '. $categorySite->getName() . '  avec succes');
         }
 
         return $this->redirectToRoute('app_category_site_index', [], Response::HTTP_SEE_OTHER);

@@ -49,9 +49,8 @@
                 <td>{{ user.lot }}</td>
                 
                 <td>
-                    <a class="btn btn-info" href="{{ path('app_site_show', {'id': user.id}) }}">show</a>
-                    <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': user.id}) }}">edit</a>
-                    <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': user.id}) }}">delete</a>
+                    <a class="btn btn-secondary" href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn btn-danger" href="{{ path('app_profil_delete', {'id': user.id}) }}">delete</a>
                 </td>
             </tr>
         {% else %}

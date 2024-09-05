@@ -4,6 +4,19 @@ controllers:
         namespace: App\Controller
     type: attribute
     # config/routes.yaml
+# routes.yaml
+user_profile:
+  path: /api/users/{id}/profile
+  controller: App\Controller\UserController::profile
+  methods: GET
+  requirements:
+    id: \d+
+
+app_profil_delete:
+    path: /{id}/delete
+    controller: App\Controller\ProfilController::delete
+    methods: ["DELETE", "GET"]
+
 app_user_index:
     path: /user
     controller: App\Controller\AdminController::index
@@ -21,11 +34,10 @@ connect_instagram_check:
     path: /connect/instagram/check
     controller: App\Controller\OAuthController::connectInstagramCheck
 
-connect_facebook:
+connect_facebook_start:
     path: /connect/facebook
-    controller: App\Controller\OAuthController::connectFacebook
-
+    controller: App\Controller\ConnectController::connectAction
 connect_facebook_check:
     path: /connect/facebook/check
-    controller: App\Controller\OAuthController::connectFacebookCheck
+
 

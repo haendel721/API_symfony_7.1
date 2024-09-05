@@ -37,7 +37,7 @@ class PermissionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($permission);
             $entityManager->flush();
-
+            $this->addFlash('succes','Ajout du ' . $permission->getSite()->getName() . ' pour l\'user '. $permission->getUser()->getName() . '  avec succès');
             return $this->redirectToRoute('app_permission_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -53,6 +53,7 @@ class PermissionController extends AbstractController
         return $this->render('permission/show.html.twig', [
             'permission' => $permission,
         ]);
+        
     }
 
     #[Route('/{id}/edit', name: 'app_permission_edit', methods: ['GET', 'POST'])]
@@ -63,6 +64,7 @@ class PermissionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('info','Modification  de  ' . $permission->getSite()->getName() . ' pour '. $permission->getUser()->getName() . '   avec succès');
 
             return $this->redirectToRoute('app_permission_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -79,6 +81,7 @@ class PermissionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$permission->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($permission);
             $entityManager->flush();
+            $this->addFlash('danger','Suppression  de  ' . $permission->getSite()->getName() . ' pour '. $permission->getUser()->getName() . '   avec succès');
         }
 
         return $this->redirectToRoute('app_permission_index', [], Response::HTTP_SEE_OTHER);
@@ -89,6 +92,8 @@ class PermissionController extends AbstractController
     {
             $entityManager->remove($permission);
             $entityManager->flush();
+            
+            $this->addFlash('danger','Suppression  de  ' . $permission->getSite()->getName() . ' pour '. $permission->getUser()->getName() . '   avec succès');
             return $this->redirectToRoute('app_permission_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -107,6 +112,7 @@ class PermissionController extends AbstractController
     
         // Enregistrer les modifications
         $entityManager->flush();
+        $this->addFlash('success','assignation de  ' . $permission->getSite()->getName() . ' pour '. $permission->getUser()->getName() . '  avec succès');
     
         // Rediriger vers la page précédente
         return $this->redirectToRoute('app_permission_index');
@@ -127,6 +133,7 @@ class PermissionController extends AbstractController
     
         // Enregistrer les modifications
         $entityManager->flush();
+        $this->addFlash('danger','Retrait  de  ' . $permission->getSite()->getName() . ' pour '. $permission->getUser()->getName() . '   avec succès');
     
         // Rediriger vers la page précédente
         return $this->redirectToRoute('app_permission_index');

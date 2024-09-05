@@ -8,9 +8,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class UserController extends AbstractController
+class UserController extends AbstractController 
 {
-    #[Route('/profil', name: 'app_profil')]
+    #[Route('/profil', name: 'app_profil')] 
     public function index(Security $security): Response
     {
         $user = $security->getUser(); // Récupérer l'utilisateur connecté
@@ -18,4 +18,10 @@ class UserController extends AbstractController
             'users' => $user,
         ]);
     }
+    // public function index(): Response
+    // {
+    //     return $this->render('user/index.html.twig', [
+    //         'controller_name' => 'UserController',
+    //     ]);
+    // }
 }
