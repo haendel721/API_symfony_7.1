@@ -13,10 +13,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-#[Route('/profil')]
+#[Route('/admin/profil/user')]
 final class ProfilController extends AbstractController
 {
-    #[Route(name: 'app_profil_index', methods: ['GET'])]
+    #[Route('/',name: 'app_profil_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('profil/index.html.twig', [

@@ -25,7 +25,7 @@ security:
                 # Page de connexion
                 login_path: /login
                 # URL vers laquelle l'utilisateur sera redirigé après une connexion réussie
-                default_target_path: /user
+                default_target_path: /profil/user
                 enable_csrf: true
                 # ... autres configurations ...
             logout:

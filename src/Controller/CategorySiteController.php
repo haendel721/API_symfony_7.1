@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/category/site')]
+#[Route('/admin/category/site')]
 class CategorySiteController extends AbstractController
 {
     #[Route('/', name: 'app_category_site_index', methods: ['GET'])]

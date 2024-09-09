@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/type/permission')]
+#[Route('/admin/type/permission')]
 class TypePermissionController extends AbstractController
 {
     #[Route('/', name: 'app_type_permission_index', methods: ['GET'])]

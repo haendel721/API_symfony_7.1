@@ -3,7 +3,11 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    {% if 'ROLE_ADMIN' in app.user.roles %}
+        <h1>Status : Admin <hr> Name : {{ user.name }}</h1>
+    {% else %}
+        <h1>Status : User simple <hr> Name : {{ user.name }}</h1>
+    {% endif %}  
 
     <table class="table">
         <tbody>

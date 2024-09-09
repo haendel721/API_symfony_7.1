@@ -20,24 +20,3 @@ app_profil_delete:
 app_user_index:
     path: /user
     controller: App\Controller\AdminController::index
-
-connect_google_check:
-    path: /connect/google/check
-    controller: App\Controller\GoogleController::check
-
-
-connect_instagram:
-    path: /connect/instagram
-    controller: App\Controller\OAuthController::connectInstagram
-
-connect_instagram_check:
-    path: /connect/instagram/check
-    controller: App\Controller\OAuthController::connectInstagramCheck
-
-connect_facebook_start:
-    path: /connect/facebook
-    controller: App\Controller\ConnectController::connectAction
-connect_facebook_check:
-    path: /connect/facebook/check
-
-

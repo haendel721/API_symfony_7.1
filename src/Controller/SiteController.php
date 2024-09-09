@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Entity\User;
 use App\Form\SiteType;
 use App\Repository\PermissionRepository;
 use App\Repository\SiteRepository;
@@ -22,6 +23,23 @@ class SiteController extends AbstractController
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findAll(),
             'permissions' => $permissionRepository->findAll(),
+        ]);
+    }
+
+   #[Route("/user/{id}/sites", name:"app_site_perso")]
+    public function showUserSites(User $user): Response
+    {
+        // On récupère les permissions autorisées pour cet utilisateur
+        $authorizedSites = [];
+        foreach ($user->getPermissions() as $permission) {
+            if ($permission->isAuthorized()) {
+                $authorizedSites[] = $permission->getSite();
+            }
+        }
+
+        return $this->render('site/index.html.twig', [
+            'user' => $user,
+            'sites' => $authorizedSites,
         ]);
     }
 

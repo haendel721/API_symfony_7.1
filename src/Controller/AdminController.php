@@ -18,7 +18,7 @@ class AdminController extends AbstractController
     //         'controller_name' => 'AdminController',
     //     ]);
     // }
-    #[Route('/user', name: 'app_user_index', methods: ['GET'])]
+    #[Route('/admin/user', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $siteRepository): Response
     {
         return $this->render('profil/index.html.twig', [
