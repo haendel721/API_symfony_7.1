@@ -8,6 +8,7 @@
     <table class="table">
         <thead>
             <tr>
+                {# <th>N°</th> #}
                 <th>Id</th>
                 <th>Utilisateur</th>
                 <th>Site</th>
@@ -19,6 +20,7 @@
         <tbody>
         {% for permission in permissions %}
             <tr>
+                {# <td>{{ $i }}</td> #}
                 <td>{{ permission.id }}</td>
                 <td>{{ permission.user.name }}</td>
                 <td>{{ permission.site.name }}</td>

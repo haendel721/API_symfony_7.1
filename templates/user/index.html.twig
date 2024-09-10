@@ -1,13 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Profil !{% endblock %}
 
 {% block body %}
-{% for user in users %}
-      <img src="{{ asset('uploads/images/' ~ user.image) }}" alt="User Image">
-
-<p><strong>Username:</strong> {{ user.username }}</p> 
-    <p><strong>Email:</strong> {{ user.email }}</p> 
-{% endfor %}
-
+<img src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="User Image" class="rounded-circle" style="max-width: 100px; max-height: 100px;">
+{{ app.user.name }}
 {% endblock %}
+

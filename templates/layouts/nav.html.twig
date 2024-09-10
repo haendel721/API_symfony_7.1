@@ -28,6 +28,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{ path('app_site_index') }}">Site</a></li>
             {% if 'ROLE_ADMIN' in app.user.roles %}
+                <li><a class="dropdown-item" href="{{ path('app_liste_site_index') }}">Liste des Sites</a></li>
                 <li><a class="dropdown-item" href="{{ path('app_category_site_index') }}">Catégorie des Sites</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{{ path('app_permission_index') }}">Permission</a></li>

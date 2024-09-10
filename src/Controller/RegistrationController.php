@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Permission;
+use App\Entity\Site;
 use App\Entity\User;
+use App\Form\Permission1Type;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,12 +56,24 @@ class RegistrationController extends AbstractController
             
             $entityManager->persist($user);
             $entityManager->flush();
-            // dd($user);
-            // exit;
+        
+            $sites = $entityManager->getRepository(Site::class)->findAll();
+            // Ajouter automatiquement une permission "non autorisée" pour chaque site
+            foreach ($sites as $site) {
+                $permission = new Permission();
+                $permission->setUser($user);
+                $permission->setSite($site);
+                $permission->setAuthorized(false); // "Non autorisé"
+
+                // Persister la permission pour chaque site
+                $entityManager->persist($permission);
+            }
+
+            $entityManager->flush();
                 
             $this->addFlash('succes', 'Utilisateur enregistré avec succès');
             // do anything else you need here, like send an email
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
             // return $security->login($user, UserAuthenticator::class, 'main');
 
             

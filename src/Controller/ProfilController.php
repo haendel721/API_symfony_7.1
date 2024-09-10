@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Permission;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -92,6 +93,12 @@ final class ProfilController extends AbstractController
     #[Route('/{id}/delete', name: 'app_profil_delete', methods: ['POST'])]
     public function delete(User $user, EntityManagerInterface $entityManager): Response
     {
+            $permission = $entityManager->getRepository(Permission::class)->findBy(['user'=>$user]);
+
+            foreach($permission as $permissions){
+                $entityManager->remove($permissions);
+            }
+            
             $entityManager->remove($user);
             $entityManager->flush();
             $this->addFlash('danger', 'Suppression  de  ' . $user->getName() . ' pour '. $user->getName() . '  avec succes');

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Permission;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Form\SiteType;
@@ -23,6 +24,14 @@ class SiteController extends AbstractController
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findAll(),
             'permissions' => $permissionRepository->findAll(),
+        ]);
+    }
+    #[Route('/liste', name: 'app_liste_site_index', methods: ['GET'])]
+    public function ListeSIteIndex(SiteRepository $siteRepository ): Response
+    {
+       
+        return $this->render('site/index.html.twig', [
+            'sites' => $siteRepository->findAll(),
         ]);
     }
 
@@ -52,6 +61,20 @@ class SiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($site);
+            $entityManager->flush();
+
+            // Assigner automatiquement le site créer à des utilisateur 
+            $user = $entityManager->getRepository(User::class)->findAll();
+            // Ajouter automatiquement une permission "non autorisée" pour chaque site
+            foreach ($user as $users) {
+                $permission = new Permission();
+                $permission->setUser($users);
+                $permission->setSite($site);
+                $permission->setAuthorized(false); // "Non autorisé"
+
+                // Persister la permission pour chaque site
+                $entityManager->persist($permission);
+            }
             $entityManager->flush();
             $this->addFlash('success', 'Ajout  de  ' . $site->getName() . ' pour '. $site->getName() . '  avec succes');
 

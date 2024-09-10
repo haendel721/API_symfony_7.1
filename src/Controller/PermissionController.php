@@ -35,6 +35,21 @@ class PermissionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // recuperer l'utilisateur
+            $user = $permission->getUser();
+            $site = $permission->getSite();
+
+            // Rechercher s'il existe déjà une permission pour cet utilisateur et ce site
+            $permissionExiste = $entityManager->getRepository(Permission::class)->findOneBy([
+                'user'=>$user,
+                'site'=>$site
+            ]);
+
+            if($permissionExiste){
+                $this->addFlash('warning', 'La permission pour ' . $site->getName() . ' avec l\'utilisateur ' . $user->getName() . ' existe déjà.');
+                return $this->redirectToRoute('app_permission_new', [], Response::HTTP_SEE_OTHER);
+            }
+            // Sinon, on persiste la nouvelle permission
             $entityManager->persist($permission);
             $entityManager->flush();
             $this->addFlash('succes','Ajout du ' . $permission->getSite()->getName() . ' pour l\'user '. $permission->getUser()->getName() . '  avec succès');

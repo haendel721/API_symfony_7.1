@@ -52,6 +52,11 @@
                     <a class="btn btn-info" href="{{ path('app_profil_show', {'id': user.id}) }}">Show</a>  
                     <a class="btn btn-secondary" href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
                     <a class="btn btn-success" href="{{ path('app_site_perso', {'id': user.id}) }}">Site autorisé</a>
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        <a class="btn btn-outline-danger" href="{{ path('retirer_role', {'userId': user.id}) }}">Retirer le rôle Admin</a>
+                    {% else %}
+                        <a class="btn btn-outline-success" href="{{ path('assigner_role', {'userId': user.id}) }}">Assigner rôle Admin</a>
+                    {% endif %}
                     <a class="btn btn-danger" href="{{ path('app_profil_delete', {'id': user.id}) }}">delete</a>
                 </td>
             </tr>
