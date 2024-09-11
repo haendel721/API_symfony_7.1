@@ -6,10 +6,53 @@
     text-align: center;
 }
 .btn-logout{
+    
     color: aliceblue;
     text-decoration: none;
 }
-    /* 
-    .citation{
-        margin-left: 5%;
-    } */
+
+#navgreen{
+    background-color: rgb(23 23 23);
+}
+#text-white{
+    color: rgb(148 163 184);
+}
+.center{
+    margin-left: 40%;
+    gap: 30%;
+}
+
+.footer{
+    background-color: rgb(30 41 59);
+    size: 50%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+.m-auto{
+    width: 30%;
+    height: 30%;
+}
+
+/* .justify-center{
+    justify-content: center;
+} */
+
+.text-sm{
+    color: antiquewhite;
+}
+.image{
+    background-image: url('https://th.bing.com/th/id/R.68b3fb34ca0f6de60ff559530b9c118a?rik=27ScZcgcaFYtmQ&riu=http%3a%2f%2frachaeladamsblog.live%2fwp-content%2fuploads%2f2020%2f05%2fIMG_1790-2048x1365.jpg&ehk=SQOMP9RN9E7ofXkyNy8SjBjt%2fzXycpFdDpfH5jzzFMQ%3d&risl=&pid=ImgRaw&r=0'); /* Remplacez par votre image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+}
+#image{
+    height: 10%;
+}

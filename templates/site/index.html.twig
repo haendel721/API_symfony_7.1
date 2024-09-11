@@ -13,15 +13,14 @@
                 <th>Url</th>
                 <th>Category</th>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
-                    <th>login</th>
+                    <th>Login</th>
                     <th>id Login</th>
-                    <th>name Login</th>
-                    <th>class Login et Password</th>
+                    <th>class Login</th>
                     <th>Mot de pass</th>
-                    <th>id Mot de pass</th>
-                    <th>name Mot de pass</th>
+                    <th>id Password</th>
+                    <th>class Password</th>
                     <th>id bouton</th>
-                    
+                    <th>class bouton</th>
                 {% endif %}
                 <th>actions</th>
             </tr>
@@ -40,13 +39,49 @@
                
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <td>{{ site.user.email }}</td>
-                    <td>inputEmail</td>
-                    <td>email</td>
-                    <td>form-control</td>
+
+                    {# id login #}
+                    {% if site.name =='Facebook' %}
+                        <td>email</td>
+                    {% elseif site.name == 'Instagram' %}
+                        <td>-</td>
+                    {% endif %}
+                    {# id login #}
+
+                    {# class login #}
+                    {% if site.name =='Facebook' %}
+                        <td>-</td>
+                    {% elseif site.name == 'Instagram' %}
+                        <td>_aa4b _add6 _ac4d _ap35</td>
+                    {% endif %}
+                    {# class login #}
+
                     <td>{{ site.user.password }}</td>
-                    <td>inputPassword</td>
-                    <td>password</td>
-                    <td>btn btn-lg btn-primary</td>
+
+                    {# id password #}
+                    {% if site.name =='Facebook' %}
+                        <td>pass</td>
+                    {% elseif site.name == 'Instagram' %}
+                        <td>-</td>
+                    {% endif %}
+                    {# id password #}
+
+                    {# class password #}
+                    {% if site.name =='Facebook' %}
+                        <td>-</td>
+                    {% elseif site.name == 'Instagram' %}
+                        <td>_aa4b _add6 _ac4d _ap35</td>
+                    {% endif %}
+                    {# class password #}
+
+                    {# class boutton #}
+                    {% if site.name =='Facebook' %}
+                        <td>_42ft _4jy0 _6lth _4jy6 _4jy1 selected _51sy</td>
+                    {% elseif site.name == 'Instagram' %}
+                        <td>_acan _acap _acas _aj1- _ap30</td>
+                    {% endif %}
+                    {# class boutton #}
+                    
                 <td>
                     <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>
                     <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': site.id}) }}">edit</a>

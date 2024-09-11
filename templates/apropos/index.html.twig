@@ -1,30 +1,57 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+{% extends 'regiLog.html.twig' %}
 
-    </head>
-    <body>
-        {% block nav %}
-            {% include 'layouts/nav.html.twig' %}
-        {% endblock %}
-        {% block message  %}
-            {% include 'layouts/_flash_message.html.twig' %}
-        {% endblock %}
-        {% block body %}{% endblock %}
-        
-    </body>
-    <br><br>
-{# <footer class="footer" class="w-full bg-gray-100 dark:bg-gray-900 py-16"><br><br>
+{% block title %}A propos {% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<div class="image">
+  <img id="image" src="{{ asset('uploads/logo_dgsr.png') }} " alt="User Image" >
+</div>
+
+
+<br><br>
+<div class="row">
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Présentation des créateurs</h5>
+        <p class="card-text">Nous sommes deux passionnés de technologie et de gestion de données, unis par notre ambition de créer une API robuste et efficace pour la gestion des sites accessibles aux utilisateurs. Notre mission est de fournir une solution intuitive qui permet aux développeurs et aux administrateurs de contrôler et de surveiller facilement les sites qu'un utilisateur peut visiter.</p>
+        {# <a href="#" class="btn btn-primary">Go somewhere</a> #}
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Notre mission</h5>
+        <p class="card-text">Simplifier la gestion des accès aux sites web à travers une API fiable et sécurisée. Nous visons à offrir une flexibilité maximale pour intégrer et personnaliser les restrictions d'accès en fonction des besoins spécifiques de chaque utilisateur.</p>
+        {# <a href="#" class="btn btn-primary">Go somewhere</a> #}
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<div class="card text-center">
+  <div class="card-header">
+      
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Pour avoir plus d'information</h5>
+    <p class="card-text">Contactez-nous dès aujourd'hui pour découvrir comment nous pouvons collaborer ensemble !</p>
+    {# <a href="#" class="btn btn-primary">Go somewhere</a> #}
+  </div>
+  <div class="card-footer text-body-secondary">
+  
+  </div>
+</div>
+
+<footer class="footer" class="w-full bg-gray-100 dark:bg-gray-900 py-16"><br><br>
   <div class="md:px-12 lg:px-28">
-    <div class="container m-auto space-y-6 text-gray-600 dark:text-gray-300"> #}
+    <div class="container m-auto space-y-6 text-gray-600 dark:text-gray-300">
       {# <img src="images/logo.svg" alt="logo tailus" class="m-auto w-40" />
       <ul role="list" class="flex flex-col items-center justify-center gap-4 py-4 sm:flex-row sm:gap-8" >
         <li role="listitem"><a href="#" class="hover:text-primary" >Home</a></li>
@@ -32,7 +59,7 @@
         <li role="listitem"><a href="#" class="hover:text-primary">Get started</a></li>
         <li role="listitem"><a href="#" class="hover:text-primary">About us</a></li>
       </ul> #}
-      {# <div class="m-auto flex w-max items-center justify-between space-x-4">
+      <div class="m-auto flex w-max items-center justify-between space-x-4">
         <a href="tel:+243996660436" aria-label="call">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,12 +108,27 @@
           </svg>
         </a>
       </div>
-
+      
+      {% if "ROLE_ADMIN" in app.user.roles %}
+        <a href="{{ path('app_profil') }}">
+          <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+          </svg>
+        </a>
+      {% else %}
+        <a href="{{ path('app_user_profil_simple') }}">
+          <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+          </svg>
+        </a>
+      {% endif %}
+      
       <div class="text-center">
         <span class="text-sm tracking-wide">Copyright @ Haendel <span id="year"></span> | All right reserved</span>
       </div>
+      
     </div>
   </div><br><br>
-</footer> #}
-                                    
-</html>
+</footer>
+
+{% endblock %}
