@@ -4,11 +4,25 @@
 
 {% block body %}
 <br>
-<img src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="User Image" class="rounded float-start" style="max-width: 10%; max-height: 10%;">
-
+<div class="info">
+    <div class="photo">
+        <img src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="User Image" class="rounded float-start" style="max-width: 10%; max-height: 10%;">
+    </div>
+    <div class="info-nom-prenom-status">
+        <div class="info-nom">
+            Nom : {{ app.user.name }}
+        </div>
+        <div class="info-prenom">
+            Prénom : {{ app.user.surname }}
+        </div>
+        <div class="info-status">
+            Status : {{ app.user.situationFamiliale }}
+        </div>
+    </div>
+</div>
 <div>
-    Nom : {{ app.user.name }}
-    Prénom : {{ app.user.surname }}
+    
+    
 </div>
 {% endblock %}
 
