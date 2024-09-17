@@ -32,6 +32,7 @@ class SiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Site::class,
+            'csrf_protection'=> true // Protection CSRF activée
         ]);
     }
 }

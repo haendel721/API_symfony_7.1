@@ -81,4 +81,12 @@ class CategorySiteController extends AbstractController
 
         return $this->redirectToRoute('app_category_site_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/{id}/delete', name: 'app_categorysite_delete_direct')]
+    public function supprimer( CategorySite $categorysite, EntityManagerInterface $entityManager): Response
+    {
+            $entityManager->remove($categorysite);
+            $entityManager->flush();
+            $this->addFlash('danger', 'Suppression  de  ' . $categorysite->getName() . ' pour '. $categorysite->getName() . '  avec succes');
+        return $this->redirectToRoute('app_site_index');
+    }
 }

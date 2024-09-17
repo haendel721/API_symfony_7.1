@@ -14,22 +14,25 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            if( $this->getUser()->getRoles()  == 'ROLE_ADMIN'){
-                return $this->redirectToRoute('app_profil_index');
-            }else if($this->getUser()->getRoles()  == 'ROLE_USER'){
-                return $this->redirectToRoute('app_user_profil_simple');
-            }else{
-                return $this->redirectToRoute('app_user_profil_simple');
-            }
-            
-        }
         $session = $request->getSession();
         if ($session->get('logged_out')) {
             return $this->render('security/login.html.twig', [
                 'error' => 'Votre session a été invalidée. Vous devez utiliser le bouton de déconnexion pour accéder à nouveau.',
             ]);
         }
+        // if ($this->getUser()) {
+            
+        //     // dump($this->getUser());
+        //     $roles = $this->getUser()->getRoles();
+        //     if (in_array('ROLE_ADMIN', $roles, true)) {
+        //         return $this->redirectToRoute('app_profil_index');
+        //     } elseif (in_array('ROLE_USER', $roles, true)) {
+        //         return $this->redirectToRoute('app_user_profil_simple');
+        //     } else {
+        //         return $this->redirectToRoute('app_user_profil_simple');
+        //     }
+            
+        // }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

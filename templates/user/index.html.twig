@@ -3,8 +3,8 @@
 {% block title %}Profil !{% endblock %}
 
 {% block body %}
-<br>
-<div class="info">
+<div style="background-color: #f0f0f0; padding: 20px;">
+    <div class="info">
     <div class="photo">
         <img src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="User Image" class="rounded float-start" style="max-width: 10%; max-height: 10%;">
     </div>
@@ -20,9 +20,26 @@
         </div>
     </div>
 </div>
-<div>
-    
+
+<div class="autre_info">
+    <center>
+        <strong>
+            <img src="{{ asset('uploads/icone/emplacement.png') }}" ><span >Domicile : {{ app.user.lot}}</span><br><br>
+            <img src="{{ asset('uploads/icone/lieu-de-naissance.png') }}" ><span >Lieu de naissance : {{ app.user.lieuNaissance}}</span><br><br>
+            {% if app.user.genre == "masculin" %}
+                <img src="{{ asset('uploads/icone/sexe-masculin.png') }}" ><span >Sexe :{{ app.user.genre}}</span><br><br>
+            {% elseif app.user.genre == "feminin" %}
+                <img src="{{ asset('uploads/icone/signe-feminin.png') }}" ><span >Sexe : {{ app.user.genre}}</span><br><br>
+            {% else %}
+                <img src="{{ asset('uploads/icone/identite-de-genre.png') }}" ><span >Sexe :{{ app.user.genre}}</span><br><br>
+            {% endif %}
+            <img src="{{ asset('uploads/icone/profession.png') }}" ><span >Fonction : {{ app.user.fonction}}</span><br><br>
+            <img src="{{ asset('uploads/icone/gmail.png') }}" ><span >E-mail : {{ app.user.email}}</span><br><br>
+        </strong>
+    </center>
     
 </div>
+<br>
+
 {% endblock %}
 

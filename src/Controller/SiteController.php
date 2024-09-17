@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/site')]
 class SiteController extends AbstractController
@@ -30,7 +31,7 @@ class SiteController extends AbstractController
     public function ListeSIteIndex(SiteRepository $siteRepository ): Response
     {
        
-        return $this->render('site/index.html.twig', [
+        return $this->render('site/listeSite.html.twig', [
             'sites' => $siteRepository->findAll(),
         ]);
     }

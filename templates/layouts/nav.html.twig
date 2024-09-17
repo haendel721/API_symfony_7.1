@@ -1,17 +1,14 @@
 <nav class="navbar navbar-expand-lg " id="navgreen">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-    {# <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
-      <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
-    </svg> #}
     
     {% if "ROLE_ADMIN" in app.user.roles %}
       <a  href="{{ path('app_profil') }}">
-        <img src="{{ asset('uploads/images/' ~ app.user.image) }} " alt="User Image" class="rounded-circle" style="max-width: 50px; max-height: 50px;">
+        <img src="{{ asset('uploads/images/' ~ app.user.image) }} " alt="Admin Image" class="rounded-circle " style="max-width: 50px; max-height: 50px;">
       </a>
     {% else %}
     <a  href="{{ path('app_user_profil_simple') }}">
-        <img src="{{ asset('uploads/images/' ~ app.user.image) }} " alt="User Image" class="rounded-circle" style="max-width: 50px; max-height: 50px;">
+        <img src="{{ asset('uploads/images/' ~ app.user.image) }} " alt="User Image" class="rounded-circle " style="max-width: 50px; max-height: 50px;">
       </a>
     {% endif %}
     </a>
@@ -19,44 +16,59 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Liens de navigation généraux -->
         <li class="nav-item">
-          <a class="nav-link" id="text-white" href="{{ path('app_apropos') }}">A propos</a>
+            <a class="nav-link text-white" href="{{ path('app_apropos') }}">A propos</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Menu
-          </a>
-          <ul class="dropdown-menu">
 
-            {% if 'ROLE_ADMIN' in app.user.roles %}
-                <li><a class="dropdown-item" href="{{ path('app_profil') }}">Profil</a></li>
-                <li><a class="dropdown-item" href="{{ path('app_user_index') }}">Utilisateur </a></li>
-            {% else %}
-                <li><a class="dropdown-item" href="{{ path('app_user_profil_simple') }}">Profil</a></li>
-            {% endif %}
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{ path('app_site_index') }}">Site</a></li>
-            {% if 'ROLE_ADMIN' in app.user.roles %}
-                <li><a class="dropdown-item" href="{{ path('app_liste_site_index') }}">Liste des Sites</a></li>
-                <li><a class="dropdown-item" href="{{ path('app_category_site_index') }}">Catégorie des Sites</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ path('app_permission_index') }}">Permission</a></li>
-            {% else %}
-            {% endif %}
-          </ul>
-        </li>
-        
+        <!-- Vérification des rôles pour afficher des éléments spécifiques -->
+        {% if 'ROLE_ADMIN' in app.user.roles %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">User</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ path('app_profil') }}">Profil</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_user_index') }}">Utilisateur</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a></li>
+                </ul>
+            </li>
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Site</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ path('app_site_index') }}">Site</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_liste_site_index') }}">Liste des Sites</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_category_site_index') }}">Catégorie des Sites</a></li>
+                </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ path('app_permission_index') }}">Permission</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ path('app_user_profil_simple') }}">Profil</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ path('app_site_index') }}">Site</a>
+            </li>
+        {% endif %}
+
+        <!-- Affichage du nom de l'utilisateur -->
         <li class="nav-item">
-          <span class="nav-link" >{{ app.user.name }} </span>
+            <span class="nav-link">{{ app.user.name }}</span>
         </li>
-       </ul> 
-      <form class="d-flex" {#role="search"#}>
-          <button class="btn btn-lg btn-outline-secondary " type="submit"><a class="btn-logout" href="{{ path('app_logout') }}">Logout</a></button>
-        {# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button> #}
-      </form>
-    </div>
+    </ul> 
+
+    <!-- Formulaire de déconnexion -->
+    <form class="d-flex">
+        <button class="btn btn-lg btn-outline-secondary" type="submit">
+            <a class="btn-logout" href="{{ path('app_logout') }}">Logout</a>
+        </button>
+    </form>
+</div>
+
   </div>
 </nav>
 <ul id="navgreen" class="nav ">

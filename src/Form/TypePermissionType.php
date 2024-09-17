@@ -21,6 +21,7 @@ class TypePermissionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TypePermission::class,
+            'csrf_protection'=> true // Protection CSRF activée
         ]);
     }
 }

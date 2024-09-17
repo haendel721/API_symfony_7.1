@@ -1,5 +1,5 @@
 body {
-    /* background-color: skyblue; */
+    background-color: #f0f0f0;
 }
 .login-form{
     width: 500px;
@@ -58,14 +58,15 @@ body {
 }
 /* Container for the form */
 .login-form {
-    max-width: 50%;
+    /* max-width: 50%;
     margin-top: 10%;
-    margin-left: 5%;
-    padding: 20px;
+    margin-left: 10%;*/
+    margin: 10% 30%;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(255, 249, 249);
     background-color: rgba(255, 255, 255, 0.1);
 }
+
 
 /* Styling for alerts */
 .alert {
@@ -120,4 +121,88 @@ body {
 }
 .checkbox label {
     font-size: 14px;
+}
+.form_login{
+    margin-left: 60%; 
+}
+@media only screen and (max-width: 1321px)  {
+    body{
+        background-color: #004085 ;
+    }
+}
+/* Container for the profile info */
+.info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Styling for the profile photo */
+.photo {
+    flex: 0 0 40%; /* 40% of the container width for the photo */
+    margin-right: 1.5cm; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+}
+
+.photo img {
+    width: 100%;  
+    object-fit: cover; 
+    border-radius: 50%;
+    border: 2px solid #ccc; 
+}
+
+.info-nom-prenom-status {
+    flex: 0 0 50%; /* 50% of the container width for the text */
+}
+
+/* Styling for each piece of information */
+.info-nom, .info-prenom, .info-status {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Highlight the name */
+.info-nom {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Slightly larger font for surname */
+.info-prenom {
+    color: #555;
+}
+
+/* Light gray color for status */
+.info-status {
+    color: #777;
+}
+.autre_info{
+    justify-content: center;
+}
+.autre_info img{
+    width: 2%;
+}
+.text-blanc{
+    color: white;
+}
+
+.text-blanc a{
+    color: #ccc;
+    text-decoration: dashed;
+}
+.text_bleu{
+    color: rgb(0, 4, 255);
+}
+
+.text_bleu a{
+    color:rgb(0, 4, 255);
+    text-decoration: dashed;
 }

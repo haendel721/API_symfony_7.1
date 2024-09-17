@@ -4,11 +4,13 @@
 
 {% block body %}
 <div class="container security-form">
-    <div class="login_form">
-    <h1>Register</h1>
+    <div class="form_login">
+    <br><br>
+    <h1><center>Register</center></h1>
 <br>
     {{ form_errors(registrationForm) }}
     {{ form_start(registrationForm) }}
+    
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Nom</span>
             {{ form_widget(registrationForm.name ,{'attr':{'class':'form form-control' ,  'placeholder':'saisit votre nom' }}) }} 
@@ -86,8 +88,22 @@
         </div><br>
         {{ form_row(registrationForm.agreeTerms ,{'attr':{'class':'form-check-input' }}) }}<br> 
 
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Register</button><br>
+        {% if app.user %}
+            <span>Retour au menu</span>
+            {% if "ROLE_ADMIN" in app.user.roles %}
+                <a class="text_bleu"  href="{{ path('app_profil_index') }}">Profil</a> 
+            {% else %}
+                <a class="text_bleu"  href="{{ path('app_user_profil_simple') }}">Profil</a> 
+            {% endif %}
+        {% else %}
+            <span>Si vous êtes déjà inscrit, cliquez sur</span>
+            <a class="text_bleu btn btn-outline-info"  href="{{ path('app_login') }}">Login</a>
+        {% endif %}
+
+        
     {{ form_end(registrationForm) }}
     </div>
+    <br><br>
 </div>
 {% endblock %}

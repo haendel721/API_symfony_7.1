@@ -49,6 +49,7 @@ class Permission1Type extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Permission::class,
+            'csrf_protection'=> true // Protection CSRF activée
         ]);
     }
 }

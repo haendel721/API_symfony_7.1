@@ -23,6 +23,7 @@ class CategorySiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CategorySite::class,
+            'csrf_protection'=> true // Protection CSRF activée
         ]);
     }
 }
