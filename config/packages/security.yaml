@@ -3,6 +3,9 @@ security:
 
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        my_custom_hasher:
+                algorithm: bcrypt
+                cost: 12
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     # Les utilisateurs pour l'application
     providers:

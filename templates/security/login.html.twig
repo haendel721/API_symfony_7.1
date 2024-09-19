@@ -16,20 +16,20 @@
 
     <div class="container form_container">
     <br><br>
-        <h1 class="login labelRemember">Welcome</h1><br>
+        <h1 class="login labelRemember">Bienvenu</h1><br>
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Email</span>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
         </div><br> 
         <div class="input-group flex-nowrap">
-            <span class="input-group-text" id="addon-wrapping">Password</span>
+            <span class="input-group-text" id="addon-wrapping">Mot de pass</span>
              <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
         </div><br>      
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     <br>
     <div class="checkbox mb-3">
         <label>
-            <input type="checkbox" name="_remember_me"> <label class="labelRemember">Remember me</label>
+            <input type="checkbox" name="_remember_me"> <label class="labelRemember"> Souvenez-vous de moi</label>
         </label>
     </div>
 

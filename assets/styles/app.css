@@ -206,3 +206,12 @@ body {
     color:rgb(0, 4, 255);
     text-decoration: dashed;
 }
+
+.log_mdp{
+    margin-left: 8%;
+    width: 60%;
+}
+.site{
+    color: #007bff;
+    font-family: cursive;
+}

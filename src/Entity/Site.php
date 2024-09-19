@@ -29,6 +29,12 @@ class Site
     #[ORM\JoinColumn(nullable: false)]
     private ?CategorySite $categorySite = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $login = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,4 +99,29 @@ class Site
 
         return $this;
     }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): static
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
 }
