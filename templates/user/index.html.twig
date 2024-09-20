@@ -20,26 +20,37 @@
 <h1><center>Complétez vos informations pour les plateformes que vous utilisez</center></h1>
 
 {% for site in sites %}
-    {% if site.login and site.password %}
-        <span  ><center>Votre compte {{ site.name }} est bien enregistrer</center></span><br>
+    {% set hasLoginSite = false %}
+    
+    {% for loginSite in app.user.loginSites %}
+        {% if loginSite.site is not null and loginSite.site.id == site.id %}
+            {% set hasLoginSite = true %}
+        {% endif %}
+    {% endfor %}
+
+    {% if hasLoginSite %}
+        <span><center>Votre compte {{ site.name }} est bien enregistré.</center></span><br>
     {% else %}
         <center>
         <div class="container">
-        <span class="site">{{ site.name }}</span><br><br>
             <form method="post" action="{{ path('login_and_password', {'siteId': site.id}) }}">
+                <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" aria-label="login" required>
                 <div class="log_mdp input-group mb-3">
+                    <input class="site" id="siteId" name="siteId" hidden value="{{ site.id }}"><br><br>
+                    <input class="site" id="userId" name="userId" hidden value="{{ app.user.id }}">
                     <input type="text" class="form-control" id="login" name="login" placeholder="login" aria-label="login" required>
                     <span class="input-group-text">@</span>
                     <input type="password" class="form-control" id="password" name="password" placeholder="password" aria-label="password" required>
                     <button type="submit" class="btn btn-outline-primary">Enregistrer</button>
                 </div>
             </form>
-
         </div>
         </center>
         <br>
     {% endif %}
 {% endfor %}
+
+
 
 
 <div class="autre_info">

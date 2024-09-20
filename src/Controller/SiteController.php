@@ -6,6 +6,7 @@ use App\Entity\Permission;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Form\SiteType;
+use App\Repository\LoginSiteRepository;
 use App\Repository\PermissionRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,12 +24,13 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 class SiteController extends AbstractController
 {
     #[Route('/', name: 'app_site_index', methods: ['GET'])]
-    public function index(SiteRepository $siteRepository , PermissionRepository $permissionRepository ): Response
+    public function index(SiteRepository $siteRepository , PermissionRepository $permissionRepository , LoginSiteRepository $loginsiterepository): Response
     {
        
         return $this->render('site/index.html.twig', [
             'sites' => $siteRepository->findAll(),
             'permissions' => $permissionRepository->findAll(),
+            'loginSites' => $loginsiterepository->findAll()
         ]);
     }
     #[Route('/liste', name: 'app_liste_site_index', methods: ['GET'])]
@@ -175,43 +177,6 @@ class SiteController extends AbstractController
             'site' => $site,
         ]);
     }
-    #[Route("/site/login/password/{siteId}", name:"login_and_password", methods:["POST"])]
-    public function login_and_password( $siteId,  Request $request,   EntityManagerInterface $entityManager,   PasswordHasherFactoryInterface $passwordHasherFactory): Response
-    {
-        // Récupérer l'entité Site existante par l'ID
-        $site = $entityManager->getRepository(Site::class)->find($siteId);
-    
-        if (!$site) {
-            // Si le site n'existe pas, renvoyer une erreur ou rediriger
-            throw $this->createNotFoundException('Site non trouvé');
-        }
-    
-        // Récupérer les données du formulaire
-        $login = $request->request->get('login');
-        $password = $request->request->get('password');
-    
-        // Mettre à jour les propriétés (seulement si nécessaire)
-        if ($login) {
-            $site->setLogin($login);
-        }
-    
-        if ($password) {
-             // Récupérer le mot de passe à hacher
-            $password = $request->request->get('password');
-            
-            // Obtenir un hasher spécifique via la fabrique
-            $passwordHasher = $passwordHasherFactory->getPasswordHasher('my_custom_hasher');
-            
-            // Hacher le mot de passe
-            $hashedPassword = $passwordHasher->hash($password);
-            $site->setPassword($hashedPassword);
-        }
-    
-        // Enregistrer les changements dans la base de données
-        $entityManager->flush();
-    
-        // Rediriger vers une page ou afficher un message de succès
-        return $this->redirectToRoute('app_profil');
-    }
+   
 
 }

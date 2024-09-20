@@ -262,12 +262,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
     #[ORM\OneToMany(targetEntity: Permission::class, mappedBy: 'user')]
+    
     private $permissions;
+
+    /**
+     * @var Collection<int, LoginSite>
+     */
+    #[ORM\OneToMany(targetEntity: LoginSite::class, mappedBy: 'user')]
+    private Collection $loginSites;
 
     public function __construct()
     {
-        $this->permissions = new ArrayCollection();
+        $this->loginSites = new ArrayCollection();
     }
+
      /**
      * @return Collection|Permission[]
      */
@@ -308,4 +316,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return false;
     }
+
+    /**
+     * @return Collection<int, LoginSite>
+     */
+    public function getLoginSites(): Collection
+    {
+        return $this->loginSites;
+    }
+
+    public function addLoginSite(LoginSite $loginSite): static
+    {
+        if (!$this->loginSites->contains($loginSite)) {
+            $this->loginSites->add($loginSite);
+            $loginSite->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoginSite(LoginSite $loginSite): static
+    {
+        if ($this->loginSites->removeElement($loginSite)) {
+            // set the owning side to null (unless already changed)
+            if ($loginSite->getUser() === $this) {
+                $loginSite->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

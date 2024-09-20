@@ -35,8 +35,13 @@
                     {# <a href="{{ path('connect_facebook_start', {'service': site.name}) }}">Connecter</a> #}
                 </td>
                 <td>{{ site.categorySite.name }}</td>
-                <td>{{ site.login }}</td>
-                <td>{{ site.password}}</td>
+                {% for loginSite in loginSites %}
+                     <td>{{ loginSite.login }}</td> 
+                     <td>{{ loginSite.mdp }}</td> 
+                {% endfor %}
+               
+                   
+                   {# <td>{{ site.password}}</td>  #}
             {% if "ROLE_ADMIN" in app.user.roles %}
                 <td>
                     <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>

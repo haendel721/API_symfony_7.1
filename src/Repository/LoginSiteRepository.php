@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Password;
+use App\Entity\LoginSite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Password>
+ * @extends ServiceEntityRepository<LoginSite>
  */
-class PasswordRepository extends ServiceEntityRepository
+class LoginSiteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Password::class);
+        parent::__construct($registry, LoginSite::class);
     }
 
 //    /**
-//     * @return Password[] Returns an array of Password objects
+//     * @return LoginSite[] Returns an array of LoginSite objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
+//        return $this->createQueryBuilder('l')
+//            ->andWhere('l.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
+//            ->orderBy('l.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Password
+//    public function findOneBySomeField($value): ?LoginSite
 //    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
+//        return $this->createQueryBuilder('l')
+//            ->andWhere('l.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
