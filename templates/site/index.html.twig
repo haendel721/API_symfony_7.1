@@ -22,44 +22,56 @@
         </thead>
         <tbody>
         {% for site in sites %}
-            <tr>
-            {% if app.user.hasPermissionToVisit(site) %}
-            {% if "ROLE_ADMIN" in app.user.roles %}
-                <td>{{ site.id }}</td>
-            {% else %}
-            {% endif %}
-                
-                <td>{{ site.name }}</td>
-                <td>
-                    <a class="link-success  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ site.url }}" target="_blank">{{ site.url }}</a>
-                    {# <a href="{{ path('connect_facebook_start', {'service': site.name}) }}">Connecter</a> #}
-                </td>
-                <td>{{ site.categorySite.name }}</td>
-                {% for loginSite in loginSites %}
-                     <td>{{ loginSite.login }}</td> 
-                     <td>{{ loginSite.mdp }}</td> 
-                {% endfor %}
-               
-                   
-                   {# <td>{{ site.password}}</td>  #}
-            {% if "ROLE_ADMIN" in app.user.roles %}
-                <td>
-                    <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>
-                    <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': site.id}) }}">edit</a>
-                    <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': site.id}) }}">delete</a>
-                </td>
-                {% else %}
-                <td>
-                     <a class="btn btn-outline-primary" href="{{ path('app_site_show' , { 'id': site.id }) }}">show</a>
-                </td>
-                {% endif %}
-            {% else %}
-            {% endif %}            
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            {# {% for loginSite in app.user.loginSites %} #}
+                {# {% if loginSite %} #}
+                    <tr>
+                    {% if app.user.hasPermissionToVisit(site) %}
+                        {% if "ROLE_ADMIN" in app.user.roles %}
+                            <td>{{ site.id }}</td>
+                        {% else %}
+                        {% endif %}
+                        
+                        <td>{{ site.name }}</td>
+                        <td>
+                            <a class="link-success  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{{ site.url }}" target="_blank">{{ site.url }}</a>
+                            {# <a href="{{ path('connect_facebook_start', {'service': site.name}) }}">Connecter</a> #}
+                        </td>
+                        <td>{{ site.categorySite.name }}</td>
+                        
+                        {# Vérifier s'il y a un loginSite associé à l'utilisateur pour ce site #}
+                        {% set userLoginSite = null %}
+                        {% for loginSite in app.user.loginSites %}
+                            {% if loginSite.site == site %}
+                                {% set userLoginSite = loginSite %}
+                                
+                            {% endif %}
+                        {% endfor %}
+                        
+                         {# Si un loginSite est trouvé, afficher le login et le mot de passe #}
+                        {% if userLoginSite %}
+                            <td>{{ userLoginSite.login }}</td>
+                            <td>{{ userLoginSite.mdp }}</td>
+                        {% else %}
+                            <td>Pas de login</td>
+                            <td>-</td>
+                        {% endif %}
+                        
+                        {# <td>{{ site.password}}</td>  #}
+                        {% if "ROLE_ADMIN" in app.user.roles %}
+                            <td>
+                                <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>
+                                <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': site.id}) }}">edit</a>
+                                <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': site.id}) }}">delete</a>
+                            </td>
+                        {% else %}
+                            <td>
+                                <a class="btn btn-outline-primary" href="{{ path('app_site_show' , { 'id': site.id }) }}">show</a>
+                            </td>
+                        {% endif %} 
+                    </tr>
+                    {% endif %} 
+                {# {% endif %}  #}
+            {# {% endfor %} #}
         {% endfor %}
         </tbody>
     </table>
