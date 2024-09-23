@@ -1,12 +1,12 @@
 {% extends 'register.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registre{% endblock %}
 
 {% block body %}
 <div class="container security-form">
     <div class="form_login">
     <br><br>
-    <h1><center>Register</center></h1>
+    <h1><center>Registre</center></h1>
 <br>
     {{ form_errors(registrationForm) }}
     {{ form_start(registrationForm) }}
@@ -90,15 +90,15 @@
 
         <button type="submit" class="btn btn-primary">Register</button><br>
         {% if app.user %}
-            <span>Retour au menu</span>
+            <span>Retour </span>
             {% if "ROLE_ADMIN" in app.user.roles %}
-                <a class="text_bleu"  href="{{ path('app_profil_index') }}">Profil</a> 
+                <a class="text_bleu"  href="{{ path('app_profil_index') }}"> au profil</a> 
             {% else %}
-                <a class="text_bleu"  href="{{ path('app_user_profil_simple') }}">Profil</a> 
+                <a class="text_bleu"  href="{{ path('app_user_profil_simple') }}">au profil</a> 
             {% endif %}
         {% else %}
             <span>Si vous êtes déjà inscrit, cliquez sur</span>
-            <a class="text_bleu btn btn-outline-info"  href="{{ path('app_login') }}">Login</a>
+            <a class="text_bleu btn btn-outline-info"  href="{{ path('app_login') }}">au login</a>
         {% endif %}
 
         

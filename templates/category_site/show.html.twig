@@ -12,7 +12,7 @@
                 <td>{{ category_site.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Nom</th>
                 <td>{{ category_site.name }}</td>
             </tr>
             <tr>
@@ -22,9 +22,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_category_site_index') }}">back to list</a>
+    <a class="btn btn-outline-primary" href="{{ path('app_category_site_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_category_site_edit', {'id': category_site.id}) }}">edit</a>
+    <a class="btn btn-outline-secondary" href="{{ path('app_category_site_edit', {'id': category_site.id}) }}">Modifier</a>
 
     {{ include('category_site/_delete_form.html.twig') }}
 {% endblock %}

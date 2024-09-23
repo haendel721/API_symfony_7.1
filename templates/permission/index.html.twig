@@ -13,8 +13,8 @@
                 <th>Id</th>
                 <th>Utilisateur</th>
                 <th>Site</th>
-                <th>CreatedAt</th>
-                <th>IsAuthorized</th>
+                <th>Date de création</th>
+                <th>Autorisation</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,28 +28,28 @@
                 <td>{{ permission.createdAt ? permission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ permission.isAuthorized ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('app_permission_show', {'id': permission.id}) }}">show</a>
-                    <a class="btn btn-secondary" href="{{ path('app_permission_edit', {'id': permission.id}) }}">edit</a>
-                    <a class="btn btn-danger" href="{{ path('supprimer_permission_direct', {'id': permission.id}) }}">delete</a>
+                    <a class="btn " href="{{ path('app_permission_show', {'id': permission.id}) }}"><img src="{{ asset('uploads/icone/afficher-la-liste.png') }} " alt="User Image" width="50" height="50"></a>
+                    <a class="btn " href="{{ path('app_permission_edit', {'id': permission.id}) }}"><img src="{{ asset('uploads/icone/bouton-modifier.png') }} " alt="User Image" width="50" height="50"></a>
+                    <a class="btn " href="{{ path('supprimer_permission_direct', {'id': permission.id}) }}"><img src="{{ asset('uploads/icone/supprimer (1).png') }} " alt="User Image" width="50" height="50"></a>
                     {% if permission.isAuthorized %}
                          <form class="btn btn-danger"  action="{{ path('retire_permission', { 'permissionId': permission.id }) }}" method="post">
-                            <button class="btn btn-danger" type="submit">Retirer la Permission</button>
+                            <button class="btn btn-danger" type="submit">Retirer la permission</button>
                         </form>
                     {% else %}
                        <form class="btn btn-success"  action="{{ path('assign_permission', { 'permissionId': permission.id }) }}" method="post">
-                            <button class="btn btn-success" type="submit">Assign Permission</button>
+                            <button class="btn btn-success" type="submit">Assigner la permission</button>
                         </form>
                     {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucun document trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('app_permission_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('app_permission_new') }}">Créer un nouveau</a>
     </div>
 {% endblock %}

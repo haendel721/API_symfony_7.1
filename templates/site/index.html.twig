@@ -12,18 +12,16 @@
                 <th>Id</th>
             {% else %}
             {% endif %}
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Url</th>
                 <th>Category</th>
-                <th>Login</th>
-                <th>Password</th>
+                <th>Identifiant</th>
+                <th>Mot de passe</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for site in sites %}
-            {# {% for loginSite in app.user.loginSites %} #}
-                {# {% if loginSite %} #}
                     <tr>
                     {% if app.user.hasPermissionToVisit(site) %}
                         {% if "ROLE_ADMIN" in app.user.roles %}
@@ -52,31 +50,27 @@
                             <td>{{ userLoginSite.login }}</td>
                             <td>{{ userLoginSite.mdp }}</td>
                         {% else %}
-                            <td>Pas de login</td>
+                            <td>-</td>
                             <td>-</td>
                         {% endif %}
-                        
-                        {# <td>{{ site.password}}</td>  #}
                         {% if "ROLE_ADMIN" in app.user.roles %}
                             <td>
-                                <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>
-                                <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': site.id}) }}">edit</a>
-                                <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': site.id}) }}">delete</a>
+                                <a class="btn " href="{{ path('app_site_show', {'id': site.id}) }}"><img src="{{ asset('uploads/icone/afficher-la-liste.png') }} " alt="User Image" width="50" height="50"></a>
+                                <a class="btn " href="{{ path('app_site_edit', {'id': site.id}) }}"><img src="{{ asset('uploads/icone/bouton-modifier.png') }} " alt="User Image" width="50" height="50"></a>
+                                <a class="btn " href="{{ path('app_site_delete_direct', {'id': site.id}) }}"><img src="{{ asset('uploads/icone/supprimer (1).png') }} " alt="User Image" width="50" height="50"></a>
                             </td>
                         {% else %}
                             <td>
-                                <a class="btn btn-outline-primary" href="{{ path('app_site_show' , { 'id': site.id }) }}">show</a>
+                                <a class="btn btn-outline-primary" href="{{ path('app_site_show' , { 'id': site.id }) }}">Afficher</a>
                             </td>
                         {% endif %} 
                     </tr>
                     {% endif %} 
-                {# {% endif %}  #}
-            {# {% endfor %} #}
         {% endfor %}
         </tbody>
     </table>
-    {% if 'ROLE_ADMIN' in app.user.roles %}
-        <a class="btn btn-primary" href="{{ path('app_site_new') }}">Create new</a>
+    {# {% if 'ROLE_ADMIN' in app.user.roles %}
+        <a class="btn btn-primary" href="{{ path('app_site_new') }}">Créer un nouveau</a>
     {% else %}
-    {% endif %}
+    {% endif %} #}
 {% endblock %}

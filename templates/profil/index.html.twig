@@ -30,9 +30,9 @@
             <tr>
                 <td>
                     {% if user.image %}
-                        <img src="{{ asset('uploads/images/' ~ user.image) }}" alt="User Image" class="rounded-circle" style="max-width: 100px; max-height: 100px;">
+                        <img src="{{ asset('uploads/images/' ~ user.image) }}" alt="Image de l'utilisateur" class="rounded-circle" style="max-width: 100px; max-height: 100px;">
                     {% else %}
-                        No image
+                        Pas d'image
                     {% endif %}
                 </td>
                 <td>{{ user.id }}</td>
@@ -49,25 +49,26 @@
                 <td>{{ user.lot }}</td>
                 
                 <td>
-                    <a class="btn btn-info" href="{{ path('app_profil_show', {'id': user.id}) }}">Show</a>  
-                    <a class="btn btn-secondary" href="{{ path('app_profil_edit', {'id': user.id}) }}">edit</a>
+                    <a class="btn " href="{{ path('app_profil_show', {'id': user.id}) }}"><img src="{{ asset('uploads/icone/afficher-la-liste.png') }} " alt="User Image" width="50" height="50"></a>  
+                    <a class="btn " href="{{ path('app_profil_edit', {'id': user.id}) }}"><img src="{{ asset('uploads/icone/bouton-modifier.png') }} " alt="User Image" width="50" height="50"></a>
+                    <a class="btn " href="{{ path('app_profil_delete', {'id': user.id}) }}"><img src="{{ asset('uploads/icone/supprimer (1).png') }} " alt="User Image" width="50" height="50"></a>
                     <a class="btn btn-success" href="{{ path('app_site_perso', {'id': user.id}) }}">Site autorisé</a>
                     {% if 'ROLE_ADMIN' in user.roles %}
                         <a class="btn btn-outline-danger" href="{{ path('retirer_role', {'userId': user.id}) }}">Retirer le rôle Admin</a>
                     {% else %}
                         <a class="btn btn-outline-success" href="{{ path('assigner_role', {'userId': user.id}) }}">Assigner rôle Admin</a>
                     {% endif %}
-                    <a class="btn btn-danger" href="{{ path('app_profil_delete', {'id': user.id}) }}">delete</a>
+                    
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucun document trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('app_register') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('app_register') }}">Créer un nouveau</a>
 </div>
 {% endblock %}

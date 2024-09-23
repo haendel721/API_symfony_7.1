@@ -60,7 +60,7 @@ class SiteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_site_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager , PasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, EntityManagerInterface $entityManager ): Response
 
     {
         $site = new Site();

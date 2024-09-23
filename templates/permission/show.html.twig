@@ -12,11 +12,11 @@
                 <td>{{ permission.id }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
+                <th>Date de création</th>
                 <td>{{ permission.createdAt ? permission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>IsAuthorized</th>
+                <th>A</th>
                 <td>{{ permission.isAuthorized ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
@@ -24,7 +24,7 @@
 
     <a class="btn btn-outline-primary" href="{{ path('app_permission_index') }}">back to list</a>
 
-    <a class="btn btn-outline-secondary" href="{{ path('app_permission_edit', {'id': permission.id}) }}">edit</a>
+    <a class="btn btn-outline-secondary" href="{{ path('app_permission_edit', {'id': permission.id}) }}">Modifier</a>
 
     {{ include('permission/_delete_form.html.twig') }}
 {% endblock %}

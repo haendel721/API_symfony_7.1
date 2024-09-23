@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Modification des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+    <h1>Modifier l'utilisateur</h1>
 
-    {{ include('profil/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('profil/_form.html.twig', {'button_label': 'Update' , 'class':'btn btn-outline-info'}) }}
 
-    <a href="{{ path('app_profil_index') }}">back to list</a>
+    <a  class="btn btn-outline-info" href="{{ path('app_profil_index') }}">Retour à la liste</a>
 
     {{ include('profil/_delete_form.html.twig') }}
 {% endblock %}

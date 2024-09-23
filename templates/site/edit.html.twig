@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Site{% endblock %}
+{% block title %}Modification des Sites{% endblock %}
 
 {% block body %}
-    <h1>Edit Site</h1>
+    <h1>Modifier un Site</h1>
 
     {{ include('site/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <br><a class="btn btn-outline-primary" href="{{ path('app_site_index') }}">back to list</a>
+    <br><a class="btn btn-outline-primary" href="{{ path('app_site_index') }}">Retour à la liste</a>
 
     <br>{{ include('site/_delete_form.html.twig') }}
 {% endblock %}

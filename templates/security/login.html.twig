@@ -1,6 +1,6 @@
 {% extends 'login.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter!{% endblock %}
 
 {% block body %}
 <form method="post" class="login-form">
@@ -10,19 +10,19 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
         </div>
     {% endif %}
 
     <div class="container form_container">
     <br><br>
-        <h1 class="login labelRemember">Bienvenu</h1><br>
+        <h1 class="login labelRemember">Bienvenue</h1><br>
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Email</span>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
         </div><br> 
         <div class="input-group flex-nowrap">
-            <span class="input-group-text" id="addon-wrapping">Mot de pass</span>
+            <span class="input-group-text" id="addon-wrapping">Mot de passe</span>
              <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
         </div><br>      
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -33,7 +33,7 @@
         </label>
     </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">Sign in</button><br><br>
+    <button class="btn btn-lg btn-primary" type="submit">Connecter</button><br><br>
     <span class="text-blanc ">Cliquez sur <a class="btn btn-outline-secondary" href="{{ path('app_register') }}">S'inscrire</a> pour créer un compte.</span>
     <br><br>
     </div>

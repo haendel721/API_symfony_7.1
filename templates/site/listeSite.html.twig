@@ -9,16 +9,16 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Url</th>
                 <th>Category</th>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
-                    <th>Login</th>
-                    <th>id Login</th>
-                    <th>class Login</th>
+                    <th>Identifiant</th>
+                    <th>id Identifiant</th>
+                    <th>class Identifiant</th>
                     <th>Mot de pass</th>
-                    <th>id Password</th>
-                    <th>class Password</th>
+                    <th>id Mot de pass</th>
+                    <th>class Mot de pass</th>
                     <th>class bouton</th>
                 {% endif %}
                 <th>actions</th>
@@ -112,13 +112,13 @@
                     {# class boutton #}
                     
                 <td>
-                    <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">show</a>
-                    <a class="btn btn-secondary" href="{{ path('app_site_edit', {'id': site.id}) }}">edit</a>
-                    <a class="btn btn-danger" href="{{ path('app_site_delete_direct', {'id': site.id}) }}">delete</a>
+                    {# <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">Afficher</a> #}
+                    <a class="btn " href="{{ path('app_site_edit', {'id': site.id}) }}"><img src="{{ asset('uploads/icone/bouton-modifier.png') }} " alt="User Image" width="50" height="50"></a>
+                    <a class="btn " href="{{ path('app_site_delete_direct', {'id': site.id}) }}"><img src="{{ asset('uploads/icone/supprimer (1).png') }} " alt="User Image" width="50" height="50"></a>
                 </td>
                 {% else %}
                 <td>
-                     <a class="btn btn-outline-primary" href="#">show</a>
+                     <a class="btn btn-outline-primary" href="#">Aficher</a>
                 </td>
                 {% endif %}
             {# {% else %}
@@ -126,13 +126,13 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucun document trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     {% if 'ROLE_ADMIN' in app.user.roles %}
-        <a class="btn btn-primary" href="{{ path('app_site_new') }}">Create new</a>
+        <a class="btn btn-primary" href="{{ path('app_site_new') }}">Créer un nouveau</a>
     {% else %}
     {% endif %}
 {% endblock %}

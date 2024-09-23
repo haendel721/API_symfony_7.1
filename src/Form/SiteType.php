@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Entity\CategorySite;
-use Doctrine\DBAL\Types\TextType;
+// use Doctrine\DBAL\Types\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType; 
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -23,12 +25,12 @@ class SiteType extends AbstractType
                 'class' => CategorySite::class,
                 'choice_label' => 'name', // Remplacez 'name' par une propriété de votre entité qui est une chaîne
             ])
-            ->add('login', TextType::class, [
-                'required' => true,
-            ])
-            ->add('password', PasswordType::class, [
-                'required' => true,
-            ])
+            // ->add('login', TextType::class, [
+            //     'required' => true,
+            // ])
+            // ->add('password', PasswordType::class, [
+            //     'required' => true,
+            // ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'name',
