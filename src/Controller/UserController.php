@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,45 +30,6 @@ class UserController extends AbstractController
             'sites' => $siteRepository->findAll()
         ]);
     }
-
-    #[Route("/site/login/password/{siteId}", name:"login_and_password", methods:["POST"])]
-    public function login_and_password(Request $request, EntityManagerInterface $entityManager , PasswordHasherFactoryInterface $passwordHasherFactory): Response
-    {
-        // Récupérer les données du formulaire
-        $nameSite = $request->request->get('nameSite');
-        $login = $request->request->get('login');
-        $password = $request->request->get('password');
-        $userId = $request->request->get('userId');
-        $siteId = $request->request->get('siteId');
-         // Trouver l'utilisateur et le site par l'ID
-        $user = $entityManager->getRepository(User::class)->find($userId);
-        $site = $entityManager->getRepository(Site::class)->find($siteId);
-        if ($password) {
-            $plainPassword = $request->request->get('password'); // Récupérer le mot de passe du formulaire
-
-            // Utiliser le factory pour obtenir le hasher
-            $passwordHasher = $passwordHasherFactory->getPasswordHasher('my_custom_hasher');
-
-            // Hacher le mot de passe
-            $hashedPassword = $passwordHasher->hash($plainPassword);
-        }
-
-        // Créer une nouvelle entité Site
-        $loginSite = new LoginSite();
-        $loginSite->setNameSite($nameSite);
-        $loginSite->setLogin($login);
-        $loginSite->setMdp($hashedPassword);
-        $loginSite->setUser($user);
-        $loginSite->setSite($site);
-
-        // Enregistrer les données dans la base de données
-        $entityManager->persist($loginSite);
-        $entityManager->flush();
-
-        // Rediriger vers une page de confirmation ou afficher un message
-        return  $this->redirectToRoute('app_profil');
-    }
-
 
     #[Route('/assigner-role/{userId}', name: 'assigner_role')]
     public function assignerRole(int $userId, EntityManagerInterface $entityManager): RedirectResponse

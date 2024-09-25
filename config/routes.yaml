@@ -20,3 +20,11 @@ app_profil_delete:
 app_user_index:
     path: /user
     controller: App\Controller\AdminController::index
+
+# encryption_encrypt:
+#     path: /encrypt/{password}
+#     controller: App\Controller\LoginSiteController::encrypt
+
+# encryption_decrypt:
+#     path: /decrypt/{encryptedPasswordWithIv}
+#     controller: App\Controller\LoginSiteController::decrypt

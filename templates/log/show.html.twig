@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LoginSite{% endblock %}
+
+{% block body %}
+    <h1>LoginSite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ login_site.id }}</td>
+            </tr>
+            <tr>
+                <th>NameSite</th>
+                <td>{{ login_site.nameSite }}</td>
+            </tr>
+            <tr>
+                <th>Login</th>
+                <td>{{ login_site.login }}</td>
+            </tr>
+            <tr>
+                <th>Mdp</th>
+                <td>{{ login_site.mdp }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_log_index') }}">back to list</a>
+
+    <a href="{{ path('app_log_edit', {'id': login_site.id}) }}">edit</a>
+
+    {{ include('log/_delete_form.html.twig') }}
+{% endblock %}

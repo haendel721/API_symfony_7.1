@@ -31,6 +31,11 @@ class LoginSite
     #[ORM\OneToOne(mappedBy: 'login', cascade: ['persist', 'remove'])]
     private ?Site $site = null;
 
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
     public function getNameSite(): ?string
     {
         return $this->nameSite;

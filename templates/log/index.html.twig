@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LoginSite index{% endblock %}
+
+{% block body %}
+    <h1>LoginSite index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NameSite</th>
+                <th>Login</th>
+                <th>Mdp</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for login_site in login_sites %}
+            <tr>
+                <td>{{ login_site.id }}</td>
+                <td>{{ login_site.nameSite }}</td>
+                <td>{{ login_site.login }}</td>
+                <td>{{ login_site.mdp }}</td>
+                <td>
+                    <a href="{{ path('app_log_show', {'id': login_site.id}) }}">show</a>
+                    <a href="{{ path('app_log_edit', {'id': login_site.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_log_new') }}">Create new</a>
+{% endblock %}
