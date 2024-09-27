@@ -25,69 +25,24 @@
         {% for loginSite in app.user.loginSites %}
             {% if loginSite.site is not null and loginSite.site.id == site.id %}
                 {% set hasLoginSite = true %}
+                <center>
+                    <div class="container">
+                        <form method="post" action="{{ path('login_and_password', {'siteId': site.id}) }}">
+                            <div class="log_mdp input-group mb-3">
+                                <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" required>
+                                <a href="{{ path("app_log_edit" , {'id': loginSite.id}) }}">
+                                    <button type="button" class="btn btn-secondary">Modifier</button>
+                                </a>
+                            </div>
+                        </form>
+                     </div>
+                </center>
+                
             {% endif %}
         {% endfor %}
 
         {% if hasLoginSite %}
-            {# <center>
-                <div class="container">
-                    <div class="log_mdp input-group mb-3">
-                        <span class="form-control" name="nameSite">{{ site.name }} est bien enregistré</span>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ site.id }}">Modifier</button>
-                        <div class="modal fade" id="exampleModal-{{ site.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modification des informations</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post" action="{{ path('app_log_edit', {'id': site.id}) }}">
-                                            <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" required>
-                                            <input class="site" name="siteId" type="hidden" value="{{ site.id }}">
-                                            <input class="site" name="userId" type="hidden" value="{{ app.user.id }}">
-                                            {% set userLoginSite = null %}
-                                            {% for loginSite in app.user.loginSites %}
-                                                {% if loginSite.site == site %}
-                                                    {% set userLoginSite = loginSite %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            
-                                            {% if userLoginSite %}
-                                                <label for="recipient-name" class="col-form-label">@mail/Num</label>
-                                                <input type="text" class="form-control" name="login" value="{{ userLoginSite.login }}" required>
-                                                <label for="recipient-name" class="col-form-label">Mot de passe</label> 
-                                                <input type="password" class="form-control" name="password" placeholder="Nouveau mot de passe"value="{{ userLoginSite.mdp }}" required>
-                                            {% else %}
-                                            {% endif %}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </center>
-            <br> #}
-             <center>
-              {% for loginSite in loginSites %}
-                <div class="container">
-                    <form method="post" action="{{ path('login_and_password', {'siteId': site.id}) }}">
-                        <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" required>
-                        
-                       
-                        <a href="{{ path("app_log_edit" , {'id': loginSite.id}) }}"><button type="button" class="btn btn-secondary">Modifier</button></a>
-                {% else %}
-                    <tr>
-                        <td colspan="5">no records found</td>
-                    </tr>
-                {% endfor %}
-                    </form>
-                </div>
-            </center>
+           
         {% else %}
             <center>
                 <div class="container">

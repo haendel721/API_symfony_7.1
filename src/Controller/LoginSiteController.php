@@ -7,6 +7,7 @@ use App\Entity\Site;
 use App\Entity\User;
 use App\Form\LoginSiteType;
 use App\Repository\LoginSiteRepository;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,10 +107,13 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
 }
 
     #[Route('/LoginSite', name: 'login_site')]
-    public function index(LoginSiteRepository $loginSiteRepository): Response
+    public function index(Request $request , LoginSite $loginSite,LoginSiteRepository $loginSiteRepository): Response
     {
+        $form = $this->createForm(LoginSiteType::class, $loginSite);
+        $form->handleRequest($request);
         return $this->render('login_site/index.html.twig', [
             'loginSites' => $loginSiteRepository->findAll(),
+            'form' => $form->createView(),
         ]);
     }
     // mbola tsy mety #[Route('/{id}/{Id}/delete', name: 'app_login_delete')]
@@ -132,8 +136,8 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
     //     return $this->redirectToRoute('login_site');
     // }
 
-#[Route('/{id}/edit', name: 'app_login_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, LoginSite $loginSite, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_login_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, SiteRepository $siteRepository, LoginSite $loginSite, EntityManagerInterface $entityManager): Response
     {
         // Créer le formulaire avec l'entité existante
         $form = $this->createForm(LoginSiteType::class, $loginSite);
@@ -141,38 +145,35 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
     
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer le mot de passe depuis le formulaire
-            $password = $form->get('password')->getData(); // Utilisez le formulaire pour récupérer les données
+            $password = $form->get('password')->getData();
     
             // Vérifiez si un nouveau mot de passe est fourni
             if ($password) {
-                // Clé de chiffrement (stockée dans le .env)
+                // Chiffrement du mot de passe avec la clé et l'IV
                 $encryptionKey = $_ENV['ENCRYPTION_KEY']; // Assurez-vous que cette clé est définie dans le .env
-    
-                // Vecteur d'initialisation (IV)
                 $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-                $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV
-    
-                // Chiffrement symétrique du mot de passe
+                $iv = openssl_random_pseudo_bytes($ivLength);
                 $cipherPassword = openssl_encrypt($password, 'aes-256-cbc', $encryptionKey, 0, $iv);
-    
-                // Stocker le IV avec le mot de passe chiffré
                 $cipherPasswordWithIV = base64_encode($iv . $cipherPassword);
-                $loginSite->setMdp($cipherPasswordWithIV); // Mettez à jour le mot de passe chiffré
+    
+                $loginSite->setMdp($cipherPasswordWithIV); // Mettre à jour le mot de passe chiffré
             }
-            
+    
             // Pas besoin de créer un nouvel objet, car on travaille sur l'existant
-            $entityManager->flush(); // Mettre à jour l'entité dans la base de données
-            
+            $entityManager->flush();
+    
             // Redirection après modification
             return $this->redirectToRoute('app_log_index', [], Response::HTTP_SEE_OTHER);
         }
     
         // Afficher le formulaire avec les données actuelles
-        return $this->render('login_site/edit.html.twig', [
-            'login_site' => $loginSite,
+        return $this->render('user/index.html.twig', [
+            'loginSite' => $loginSite,
+            'sites' => $siteRepository->findAll(),
             'form' => $form->createView(),
         ]);
     }
+    
     
 
 
