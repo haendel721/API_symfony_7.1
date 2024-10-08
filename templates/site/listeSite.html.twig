@@ -13,13 +13,13 @@
                 <th>Url</th>
                 <th>Category</th>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
-                    <th>Identifiant</th>
-                    <th>id Identifiant</th>
-                    <th>class Identifiant</th>
+                    <th>login</th>
+                    <th>id login</th>
+                    <th>class login</th>
                     <th>Mot de pass</th>
                     <th>id Mot de pass</th>
                     <th>class Mot de pass</th>
-                    <th>class bouton</th>
+                    <th>class submit</th>
                 {% endif %}
                 <th>actions</th>
             </tr>
@@ -38,79 +38,12 @@
                
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <td>{{ site.user.email }}</td>
-
-                    {# id login #}
-                    {% if site.name =='Facebook' %}
-                        <td>email</td>
-                    {% elseif site.name == 'Instagram' %}
-                        <td>-</td>
-                    {% elseif site.name == 'Twiter' %}
-                        <td>-</td>
-                    {% elseif site.name == 'GitHub' %}
-                        <td>login_field</td>
-                    {% else %}
-                        <td>-</td>  
-                    {% endif %}
-                    {# id login #}
-
-                    {# class login #}
-                    {% if site.name =='Facebook' %}
-                        <td>-</td>
-                    {% elseif site.name == 'Instagram' %}
-                        <td>_aa4b _add6 _ac4d _ap35</td>
-                    {% elseif site.name == 'Twiter' %}
-                        <td>r-30o5oe r-1dz5y72 r-13qz1uu r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-t60dpp r-fdjqy7</td>
-                    {% elseif site.name == 'GitHub' %}
-                        <td>form-control input-block js-login-field</td>
-                    {% else %}
-                        <td>-</td>
-                    {% endif %}
-                    {# class login #}
-
+                    <td>{{ site.idlogin }}</td>
+                    <td>{{ site.classlogin }}</td>
                     <td>{{ site.user.password }}</td>
-
-                    {# id password #}
-                    {% if site.name =='Facebook' %}
-                        <td>pass</td>
-                    {% elseif site.name == 'Instagram' %}
-                        <td>-</td>
-                    {% elseif site.name == 'Twiter' %}
-                        <td>-</td>
-                    {% elseif site.name == 'GitHub' %}
-                        <td>password</td>
-                    {% else %}
-                        <td>-</td>
-                    {% endif %}
-                    {# id password #}
-
-                    {# class password #}
-                    {% if site.name =='Facebook' %}
-                        <td>-</td>
-                    {% elseif site.name == 'Instagram' %}
-                        <td>_aa4b _add6 _ac4d _ap35</td>
-                    {% elseif site.name == 'Twiter' %}
-                        <td>-</td>
-                    {% elseif site.name == 'GitHub' %}
-                        <td>form-control form-control input-block js-password-field</td>
-                    {% else %}
-                        <td>-</td>
-                    {% endif %}
-                    {# class password #}
-
-                    {# class boutton #}
-                    {% if site.name =='Facebook' %}
-                        <td>_42ft _4jy0 _6lth _4jy6 _4jy1 selected _51sy</td>
-                    {% elseif site.name == 'Instagram' %}
-                        <td>_acan _acap _acas _aj1- _ap30</td>
-                    {% elseif site.name == 'Twiter' %}
-                        <td>-</td>
-                    {% elseif site.name == 'GitHub' %}
-                        <td>btn btn-primary btn-block js-sign-in-button</td>
-                    {% else %}
-                        <td>-</td>
-                    {% endif %}
-                    {# class boutton #}
-                    
+                    <td>{{ site.idmdp }}</td>
+                    <td>{{ site.classmdp }}</td>
+                    <td>{{ site.classsubmit }}</td>
                 <td>
                     {# <a class="btn btn-info" href="{{ path('app_site_show', {'id': site.id}) }}">Afficher</a> #}
                     <a class="btn " href="{{ path('app_site_edit', {'id': site.id}) }}"><img src="{{ asset('uploads/icone/bouton-modifier.png') }} " alt="User Image" width="50" height="50"></a>

@@ -10,10 +10,13 @@ use App\Repository\LoginSiteRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
+
 
 class LoginSiteController extends AbstractController
 {
@@ -174,7 +177,28 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
         ]);
     }
     
-    
+    #[Route('/api/login/json', name: 'app_json_afficher', methods: ['GET'])]
+public function jsonindex(LoginSiteRepository $loginSiteRepository ,SiteRepository $siteRepository): JsonResponse
+{
+    $loginSites = $loginSiteRepository->findAll();
+    $logindata = [];
+    foreach ($loginSites as $loginSite) {
+        $logindata[] = [
+            'id' => $loginSite->getId(),
+            'nom' => $loginSite->getNameSite(),
+            'login' => $loginSite->getLogin(),
+            'password' => $loginSite->getMdp(),
+            'url' => $loginSite->getSite()->getUrl(),
+            'id-login' => $loginSite->getSite()->getIdLogin(),
+            'class-login' => $loginSite->getSite()->getClassLogin(),
+            'id-mdp' => $loginSite->getSite()->getIdMdp(),
+            'class-mdp' => $loginSite->getSite()->getClassMdp(),
+            'class-submit' => $loginSite->getSite()->getClassSubmit(),
+        ];
+    }
+
+    return new JsonResponse($logindata);
+}
 
 
 }

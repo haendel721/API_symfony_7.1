@@ -33,6 +33,21 @@ class Site
 
     #[ORM\OneToOne(inversedBy: 'site', cascade: ['persist', 'remove'])]
     private ?LoginSite $login = null;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $id_login = null;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $class_login = null;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $id_mdp = null;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $class_mdp = null;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $class_submit = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -160,6 +175,78 @@ class Site
     public function setLogin(?LoginSite $login): static
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    public function getIdLogin(): ?string
+    {
+        return $this->id_login;
+    }
+
+    public function setIdLogin(string $id_login): static
+    {
+        $this->id_login = $id_login;
+
+        return $this;
+    }
+
+    public function getClassLogin(): ?string
+    {
+        return $this->class_login;
+    }
+
+    public function setClassLogin(string $class_login): static
+    {
+        $this->class_login = $class_login;
+
+        return $this;
+    }
+
+    public function getIdMdp(): ?string
+    {
+        return $this->id_mdp;
+    }
+
+    public function setIdMdp(string $id_mdp): static
+    {
+        $this->id_mdp = $id_mdp;
+
+        return $this;
+    }
+
+    public function getClassMdp(): ?string
+    {
+        return $this->class_mdp;
+    }
+
+    public function setClassMdp(string $class_mdp): static
+    {
+        $this->class_mdp = $class_mdp;
+
+        return $this;
+    }
+
+    public function getIdSubmit(): ?string
+    {
+        return $this->id_submit;
+    }
+
+    public function setIdSubmit(string $id_submit): static
+    {
+        $this->id_submit = $id_submit;
+
+        return $this;
+    }
+
+    public function getClassSubmit(): ?string
+    {
+        return $this->class_submit;
+    }
+
+    public function setClassSubmit(string $class_submit): static
+    {
+        $this->class_submit = $class_submit;
 
         return $this;
     }

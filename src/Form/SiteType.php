@@ -25,6 +25,13 @@ class SiteType extends AbstractType
                 'class' => CategorySite::class,
                 'choice_label' => 'name', // Remplacez 'name' par une propriété de votre entité qui est une chaîne
             ])
+            ->add('id_login')
+            ->add('class_login')
+            ->add('id_mdp')
+            ->add('class_mdp')
+            ->add('class_mdp')
+            ->add('class_submit')
+            
             // ->add('login', TextType::class, [
             //     'required' => true,
             // ])

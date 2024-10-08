@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\LoginSite;
 use App\Entity\Permission;
 use App\Entity\Site;
 use App\Entity\User;
@@ -33,6 +34,41 @@ class SiteController extends AbstractController
             'loginSites' => $loginsiterepository->findAll()
         ]);
     }
+
+    private $entityManager;
+
+    
+    #[Route(path: "/JsonFormat", name: "app_site_jsonformat", methods: ["POST"])]
+    public function jsonFormat(EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Récupérer l'utilisateur connecté (ou spécifier l'utilisateur si nécessaire)
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 401);
+        }
+
+        // Récupérer le LoginSite lié à cet utilisateur, en supposant une relation entre User et LoginSite
+        $loginSite = $this->entityManager->getRepository(LoginSite::class)->findOneBy(['user' => $user]);
+
+        if (!$loginSite) {
+            return $this->json(['error' => 'Login site not found'], 404);
+        }
+
+        // Préparer les données à retourner au format JSON
+        // foreach ($loginSite as $loginSites) {
+            $logindata = [
+                "nom" => $loginSite->getNameSite(),
+                'login' => $loginSite->getLogin(),
+                'password' => $loginSite->getMdp(),
+                // 'url' => $loginSite->getUrl(),
+                // 'site' => $loginSite->getSite()->getName(),
+                // 'permission' => $loginSite->getPermission()->getName(),
+            ];
+        // }
+        return $this->json($logindata);
+    }
+
     #[Route('/liste', name: 'app_liste_site_index', methods: ['GET'])]
     public function ListeSIteIndex(SiteRepository $siteRepository ): Response
     {
@@ -149,10 +185,12 @@ class SiteController extends AbstractController
     }
     private $permissionRepository;
 
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct(PermissionRepository $permissionRepository , EntityManagerInterface $entityManager)
     {
         $this->permissionRepository = $permissionRepository;
+        $this->entityManager = $entityManager;
     }
+  
     #[Route('/site/{id}', name: 'site_show')]
     public function afficher(Site $site): Response
     {
