@@ -12,6 +12,7 @@ use App\Repository\PermissionRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,39 +36,60 @@ class SiteController extends AbstractController
         ]);
     }
 
-    private $entityManager;
-
     
-    #[Route(path: "/JsonFormat", name: "app_site_jsonformat", methods: ["POST"])]
-    public function jsonFormat(EntityManagerInterface $entityManager): JsonResponse
+    #[Route('/api/liste/site/json', name: 'app_liste_site_json_afficher', methods: ['GET'])]
+    public function sitelistejsonindex(SiteRepository $siteRepository): JsonResponse
     {
-        // Récupérer l'utilisateur connecté (ou spécifier l'utilisateur si nécessaire)
-        $user = $this->getUser();
-
-        if (!$user) {
-            return $this->json(['error' => 'User not authenticated'], 401);
-        }
-
-        // Récupérer le LoginSite lié à cet utilisateur, en supposant une relation entre User et LoginSite
-        $loginSite = $this->entityManager->getRepository(LoginSite::class)->findOneBy(['user' => $user]);
-
-        if (!$loginSite) {
-            return $this->json(['error' => 'Login site not found'], 404);
-        }
-
-        // Préparer les données à retourner au format JSON
-        // foreach ($loginSite as $loginSites) {
-            $logindata = [
-                "nom" => $loginSite->getNameSite(),
-                'login' => $loginSite->getLogin(),
-                'password' => $loginSite->getMdp(),
-                // 'url' => $loginSite->getUrl(),
-                // 'site' => $loginSite->getSite()->getName(),
-                // 'permission' => $loginSite->getPermission()->getName(),
+        $site = $siteRepository->findAll();
+        $sitedata = [];
+        foreach ($site as $sites) {
+            $sitedata[] = [
+                'id' => $sites->getId(),
+                'site' => $sites->getName(),
+                'url' => $sites->getUrl(),
+                'utilisateur' => $sites->getUser()->getName(),
+                'catégorie' => $sites->getCategorySite()->getName(),
+                'id-login' => $sites->getIdLogin(),
+                'class-login' => $sites->getClassLogin(),
+                'id-mdp' => $sites->getIdMdp(),
+                'class-mdp' => $sites->getClassMdp(),
+                'class-submit' => $sites->getClassSubmit(),
             ];
-        // }
-        return $this->json($logindata);
+        }
+
+        return new JsonResponse($sitedata);
     }
+
+    #[Route('/api/liste/site/Yes/json', name: 'app_liste_site_Yes_json_afficher', methods: ['GET'])]
+public function psiteautoriselistejsonindex(SiteRepository $siteRepository, Security $security): JsonResponse
+{
+    $user = $security->getUser(); // Obtenir l'utilisateur connecté
+    if (!$user) {
+        return new JsonResponse(['error' => 'Utilisateur non authentifié'], 401);
+    }
+
+    // Filtrer les sites autorisés pour l'utilisateur
+    $sitesAutorises = $siteRepository->findByUserPermissions($user); // Méthode à définir dans votre repository
+    // dd($sitesAutorises);
+    $sitedata = [];
+    foreach ($sitesAutorises as $sites) {
+        $sitedata[] = [
+            'id' => $sites->getId(),
+            'site' => $sites->getName(),
+            'url' => $sites->getUrl(),
+            'utilisateur' => $sites->getUser()->getName(),
+            'catégorie' => $sites->getCategorySite()->getName(),
+            'id-login' => $sites->getIdLogin(),
+            'class-login' => $sites->getClassLogin(),
+            'id-mdp' => $sites->getIdMdp(),
+            'class-mdp' => $sites->getClassMdp(),
+            'class-submit' => $sites->getClassSubmit(),
+        ];
+    }
+
+    return new JsonResponse($sitedata);
+}
+
 
     #[Route('/liste', name: 'app_liste_site_index', methods: ['GET'])]
     public function ListeSIteIndex(SiteRepository $siteRepository ): Response

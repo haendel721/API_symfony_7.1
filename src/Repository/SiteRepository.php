@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Site;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,15 @@ class SiteRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByUserPermissions($user)
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.permissions', 'p') 
+            ->where('p.user = :user') // Vérifiez que 'user' correspond bien à la propriété de l'entité Permission
+            ->andWhere('p.isAuthorized = true') // Assure que 'isAuthorized' est une propriété de l'entité Permission
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 }

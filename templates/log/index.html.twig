@@ -23,8 +23,8 @@
                 <td>{{ login_site.login }}</td>
                 <td>{{ login_site.mdp }}</td>
                 <td>
-                    <a href="{{ path('app_log_show', {'id': login_site.id}) }}">show</a>
-                    <a href="{{ path('app_log_edit', {'id': login_site.id}) }}">edit</a>
+                    <a class="btn " href="{{ path('app_log_show', {'id': login_site.id}) }}"><img src="{{ asset('uploads/icone/afficher-la-liste.png') }} " alt="User Image" width="50" height="50"></a>
+                    <a class="btn " href="{{ path('app_log_edit', {'id': login_site.id}) }}"><img src="{{ asset('uploads/icone/bouton-modifier.png') }} " alt="User Image" width="50" height="50"></a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_log_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('app_log_new') }}">Create new</a>
 {% endblock %}

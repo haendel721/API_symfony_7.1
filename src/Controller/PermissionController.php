@@ -10,6 +10,7 @@ use App\Repository\PermissionRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,23 @@ class PermissionController extends AbstractController
             'permissions' => $permissions,
         ]);
     }
+    #[Route('/api/liste/permission/json', name: 'app_liste_permission_json_afficher', methods: ['GET'])]
+    public function permissionlistejsonindex(PermissionRepository $permissionRepository): JsonResponse
+    {
+        $permission = $permissionRepository->findAll();
+        $permissiondata = [];
+        foreach ($permission as $permissions) {
+            $permissiondata[] = [
+                'id' => $permissions->getId(),
+                'créer le ' => $permissions->getCreatedAt(),
+                'autorisation' => $permissions->isAuthorized(),
+                'utilisateur' => $permissions->getUser()->getName(),
+                'site' => $permissions->getSite()->getName(),
+            ];
+        }
 
+        return new JsonResponse($permissiondata);
+    }
     #[Route('/new', name: 'app_permission_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

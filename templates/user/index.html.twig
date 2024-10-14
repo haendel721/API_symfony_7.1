@@ -20,6 +20,7 @@
     <h1><center>Complétez vos informations pour les plateformes que vous utilisez</center></h1>
 
     {% for site in sites %}
+    {% if app.user.hasPermissionToVisit(site) %}
         {% set hasLoginSite = false %}
         
         {% for loginSite in app.user.loginSites %}
@@ -61,6 +62,7 @@
             </center>
             <br>
         {% endif %}
+    {% endif %}
     {% endfor %}
 </div>
 

@@ -27,6 +27,10 @@ class Site
     // #[ORM\Column(length: 255)]
     // private ?string $category = null;
 
+    #[ORM\OneToMany(targetEntity: Permission::class, mappedBy: 'site')]
+    
+    private $permissions;
+
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?CategorySite $categorySite = null;
@@ -227,18 +231,6 @@ class Site
         return $this;
     }
 
-    public function getIdSubmit(): ?string
-    {
-        return $this->id_submit;
-    }
-
-    public function setIdSubmit(string $id_submit): static
-    {
-        $this->id_submit = $id_submit;
-
-        return $this;
-    }
-
     public function getClassSubmit(): ?string
     {
         return $this->class_submit;
@@ -249,5 +241,45 @@ class Site
         $this->class_submit = $class_submit;
 
         return $this;
+    }
+     /**
+     * @return Collection|Permission[]
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    public function addPermission(Permission $permission): self
+    {
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+            $permission->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removePermission(Permission $permission): self
+    {
+        if ($this->permissions->removeElement($permission)) {
+            // set the owning side to null (unless already changed)
+            if ($permission->getUser() === $this) {
+                $permission->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function hasPermissionToVisit(Site $site): bool
+    {
+        foreach ($this->permissions as $permission) {
+            if ($permission->getSite() === $site && $permission->isAuthorized()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -1,14 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserProfilSimpleController!{% endblock %}
+{% block title %}Profil !{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div style="background-color: #f0f0f0; padding: 20px;">
+    <div class="info">
+        <div class="photo">
+            <img src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="User Image" class="rounded float-start" style="max-width: 10%; max-height: 10%;">
+        </div>
+        <div class="info-nom-prenom-status">
+            <div class="info-nom">
+                Nom : {{ app.user.name }}
+            </div>
+            <div class="info-prenom">
+                Prénom : {{ app.user.surname }}
+            </div>
+        </div>
+    </div>
+    <h1><center>Complétez vos informations pour les plateformes que vous utilisez</center></h1>
 
-<div class="example-wrapper">
-    
+    {% for site in sites %}
+    {% if app.user.hasPermissionToVisit(site) %}
+        {% set hasLoginSite = false %}
+        
+        {% for loginSite in app.user.loginSites %}
+            {% if loginSite.site is not null and loginSite.site.id == site.id %}
+                {% set hasLoginSite = true %}
+                <center>
+                    <div class="container">
+                        <form method="post" action="{{ path('login_and_password', {'siteId': site.id}) }}">
+                            <div class="log_mdp input-group mb-3">
+                                <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" required>
+                                <a href="{{ path("app_log_edit" , {'id': loginSite.id}) }}">
+                                    <button type="button" class="btn btn-secondary">Modifier</button>
+                                </a>
+                            </div>
+                        </form>
+                     </div>
+                </center>
+                
+            {% endif %}
+        {% endfor %}
+
+        {% if hasLoginSite %}
+           
+        {% else %}
+            <center>
+                <div class="container">
+                    <form method="post" action="{{ path('login_and_password', {'siteId': site.id}) }}">
+                        <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" required>
+                        <div class="log_mdp input-group mb-3">
+                            <input class="site" name="siteId" type="hidden" value="{{ site.id }}">
+                            <input class="site" name="userId" type="hidden" value="{{ app.user.id }}">
+                            <input type="text" class="form-control" name="login" placeholder="Identification" required>
+                            <span class="input-group-text">@</span>
+                            <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </center>
+            <br>
+        {% endif %}
+    {% endif %}
+    {% endfor %}
 </div>
+
+<div class="autre_info">
+    <center>
+        <strong>
+            <img src="{{ asset('uploads/icone/emplacement.png') }}"><span>Domicile : {{ app.user.lot }}</span><br><br>
+            <img src="{{ asset('uploads/icone/lieu-de-naissance.png') }}"><span>Lieu de naissance : {{ app.user.lieuNaissance }}</span><br><br>
+            {% if app.user.genre == "masculin" %}
+                <img src="{{ asset('uploads/icone/sexe-masculin.png') }}"><span>Sexe : {{ app.user.genre }}</span><br><br>
+            {% elseif app.user.genre == "feminin" %}
+                <img src="{{ asset('uploads/icone/signe-feminin.png') }}"><span>Sexe : {{ app.user.genre }}</span><br><br>
+            {% else %}
+                <img src="{{ asset('uploads/icone/identite-de-genre.png') }}"><span>Sexe : {{ app.user.genre }}</span><br><br>
+            {% endif %}
+            <img src="{{ asset('uploads/icone/profession.png') }}"><span>Fonction : {{ app.user.fonction }}</span><br><br>
+            <img src="{{ asset('uploads/icone/gmail.png') }}"><span>E-mail : {{ app.user.email }}</span><br><br>
+        </strong>
+    </center>
+</div>
+<br>
+
 {% endblock %}

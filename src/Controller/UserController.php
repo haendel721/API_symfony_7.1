@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +32,31 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/api/liste/user/json', name: 'app_liste_user_json_afficher', methods: ['GET'])]
+public function userlistejsonindex(UserRepository $userRepository): JsonResponse
+{
+    $user = $userRepository->findAll();
+    $userdata = [];
+    foreach ($user as $users) {
+        $userdata[] = [
+            'id' => $users->getId(),
+            'e-mail' => $users->getEmail(),
+            'rôle' => $users->getRoles(),
+            'password' => $users->getPassword(),
+            'nom' => $users->getName(),
+            'prénom' => $users->getSurname(),
+            'date de naissance' => $users->getDateNaissance(),
+            'address' => $users->getLot(),
+            'image' => $users->getImage(),
+            'situation familiale' => $users->getSituationFamiliale(),
+            'lieu de naissance' => $users->getLieuNaissance(),
+            'genre' => $users->getGenre(),
+            'fonction' => $users->getFonction(),
+        ];
+    }
+
+    return new JsonResponse($userdata);
+}
     #[Route('/assigner-role/{userId}', name: 'assigner_role')]
     public function assignerRole(int $userId, EntityManagerInterface $entityManager): RedirectResponse
     {

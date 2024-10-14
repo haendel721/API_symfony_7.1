@@ -79,18 +79,18 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
     $site = $entityManager->getRepository(Site::class)->find($siteId);
 
     // Clé de chiffrement (stockée dans le .env)
-    $encryptionKey = $_ENV['ENCRYPTION_KEY']; // définir cette clé dans .env
+    $encryptionKey = hex2bin($_ENV['ENCRYPTION_KEY']); // définir cette clé dans .env
 
     // Vecteur d'initialisation (IV)
-    $ivLength = openssl_cipher_iv_length('aes-256-cbc');
+    $ivLength = 16 ;//openssl_cipher_iv_length('aes-256-cbc');
     $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV
-
+    $encoded_iv = base64_encode($iv);
     // Chiffrement symétrique du mot de passe
     if ($password) {
-        $cipherPassword = openssl_encrypt($password, 'aes-256-cbc', $encryptionKey, 0, $iv);
+        $cipherPassword = openssl_encrypt($password, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
 
         // Stocker le IV avec le mot de passe chiffré pour pouvoir le déchiffrer plus tard
-        $cipherPasswordWithIV = base64_encode($iv . $cipherPassword);
+        $cipherPasswordWithIV = $encoded_iv . "::" . base64_encode($iv . $cipherPassword);
     }
 
     // Créer une nouvelle entité LoginSite
