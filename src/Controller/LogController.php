@@ -58,24 +58,29 @@ final class LogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer le mot de passe depuis le formulaire
-            $password = $form->get('mdp')->getData(); // Utilisez le formulaire pour récupérer les données
-    
-            // Vérifiez si un nouveau mot de passe est fourni
-            if ($password) {
-                // Clé de chiffrement (stockée dans le .env)
-                $encryptionKey = $_ENV['ENCRYPTION_KEY']; // Assurez-vous que cette clé est définie dans le .env
-    
-                // Vecteur d'initialisation (IV)
-                $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-                $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV
-    
-                // Chiffrement symétrique du mot de passe
-                $cipherPassword = openssl_encrypt($password, 'aes-256-cbc', $encryptionKey, 0, $iv);
-    
-                // Stocker le IV avec le mot de passe chiffré
-                $cipherPasswordWithIV = base64_encode($iv . $cipherPassword);
-                $loginSite->setMdp($cipherPasswordWithIV); // Mettez à jour le mot de passe chiffré
-            }
+            $newPassword = $form->get('mdp')->getData();
+
+        // Vérifier si un nouveau mot de passe est fourni
+        if ($newPassword) {
+            // Clé de chiffrement (stockée dans le .env sous forme hexadécimale)
+            $encryptionKey = hex2bin($_ENV['ENCRYPTION_KEY']);
+
+            // Vecteur d'initialisation (IV)
+            $ivLength = 16; // Longueur pour AES-256-CBC
+            $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV aléatoire
+            $encoded_iv = base64_encode($iv);
+
+            // Chiffrement symétrique du mot de passe
+            $cipherPassword = openssl_encrypt($newPassword, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
+
+            // Stocker le IV avec le mot de passe chiffré pour le déchiffrement ultérieur
+            $cipherPasswordWithIV = $encoded_iv . "::" . base64_encode($cipherPassword);
+
+            // Remplacer l'ancien mot de passe par le nouveau mot de passe chiffré
+            $loginSite->setMdp($cipherPasswordWithIV);
+        } else {
+            // Si aucun nouveau mot de passe n'est fourni, l'ancien mot de passe est conservé
+        }
             
             $entityManager->flush();
 

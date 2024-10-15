@@ -77,6 +77,8 @@ public function psiteautoriselistejsonindex(SiteRepository $siteRepository, Secu
             'id' => $sites->getId(),
             'site' => $sites->getName(),
             'url' => $sites->getUrl(),
+            'login' => $sites->getLogin()->getLogin(),
+            'password' => $sites->getLogin()->getMdp(),
             'utilisateur' => $sites->getUser()->getName(),
             'catégorie' => $sites->getCategorySite()->getName(),
             'id-login' => $sites->getIdLogin(),

@@ -77,16 +77,16 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
     // Trouver l'utilisateur et le site par l'ID
     $user = $entityManager->getRepository(User::class)->find($userId);
     $site = $entityManager->getRepository(Site::class)->find($siteId);
-
-    // Clé de chiffrement (stockée dans le .env)
-    $encryptionKey = hex2bin($_ENV['ENCRYPTION_KEY']); // définir cette clé dans .env
-
-    // Vecteur d'initialisation (IV)
-    $ivLength = 16 ;//openssl_cipher_iv_length('aes-256-cbc');
-    $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV
-    $encoded_iv = base64_encode($iv);
-    // Chiffrement symétrique du mot de passe
     if ($password) {
+        // Clé de chiffrement (stockée dans le .env)
+        $encryptionKey = hex2bin($_ENV['ENCRYPTION_KEY']); // définir cette clé dans .env
+
+        // Vecteur d'initialisation (IV)
+        $ivLength = 16 ;//openssl_cipher_iv_length('aes-256-cbc');
+        $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV
+        $encoded_iv = base64_encode($iv);
+        // Chiffrement symétrique du mot de passe
+    
         $cipherPassword = openssl_encrypt($password, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
 
         // Stocker le IV avec le mot de passe chiffré pour pouvoir le déchiffrer plus tard
@@ -140,42 +140,55 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
     // }
 
     #[Route('/{id}/edit', name: 'app_login_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, SiteRepository $siteRepository, LoginSite $loginSite, EntityManagerInterface $entityManager): Response
-    {
-        // Créer le formulaire avec l'entité existante
-        $form = $this->createForm(LoginSiteType::class, $loginSite);
-        $form->handleRequest($request);
-    
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer le mot de passe depuis le formulaire
-            $password = $form->get('password')->getData();
-    
-            // Vérifiez si un nouveau mot de passe est fourni
-            if ($password) {
-                // Chiffrement du mot de passe avec la clé et l'IV
-                $encryptionKey = $_ENV['ENCRYPTION_KEY']; // Assurez-vous que cette clé est définie dans le .env
-                $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-                $iv = openssl_random_pseudo_bytes($ivLength);
-                $cipherPassword = openssl_encrypt($password, 'aes-256-cbc', $encryptionKey, 0, $iv);
-                $cipherPasswordWithIV = base64_encode($iv . $cipherPassword);
-    
-                $loginSite->setMdp($cipherPasswordWithIV); // Mettre à jour le mot de passe chiffré
-            }
-    
-            // Pas besoin de créer un nouvel objet, car on travaille sur l'existant
-            $entityManager->flush();
-    
-            // Redirection après modification
-            return $this->redirectToRoute('app_log_index', [], Response::HTTP_SEE_OTHER);
+public function edit(Request $request, SiteRepository $siteRepository, LoginSite $loginSite, EntityManagerInterface $entityManager): Response
+{
+    // Créer le formulaire avec l'entité existante
+    $form = $this->createForm(LoginSiteType::class, $loginSite);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupérer le nouveau mot de passe depuis le formulaire
+        $newPassword = $form->get('password')->getData();
+
+        // Vérifier si un nouveau mot de passe est fourni
+        if ($newPassword) {
+            // Clé de chiffrement (stockée dans le .env sous forme hexadécimale)
+            $encryptionKey = hex2bin($_ENV['ENCRYPTION_KEY']);
+
+            // Vecteur d'initialisation (IV)
+            $ivLength = 16; // Longueur pour AES-256-CBC
+            $iv = openssl_random_pseudo_bytes($ivLength); // Générer un IV aléatoire
+            $encoded_iv = base64_encode($iv);
+
+            // Chiffrement symétrique du mot de passe
+            $cipherPassword = openssl_encrypt($newPassword, 'aes-256-cbc', $encryptionKey, OPENSSL_RAW_DATA, $iv);
+
+            // Stocker le IV avec le mot de passe chiffré pour le déchiffrement ultérieur
+            $cipherPasswordWithIV = $encoded_iv . "::" . base64_encode($cipherPassword);
+
+            // Remplacer l'ancien mot de passe par le nouveau mot de passe chiffré
+            $loginSite->setMdp($cipherPasswordWithIV);
+        } else {
+            // Si aucun nouveau mot de passe n'est fourni, l'ancien mot de passe est conservé
         }
-    
-        // Afficher le formulaire avec les données actuelles
-        return $this->render('user/index.html.twig', [
-            'loginSite' => $loginSite,
-            'sites' => $siteRepository->findAll(),
-            'form' => $form->createView(),
-        ]);
+
+        // Pas besoin de créer un nouvel objet, car on travaille sur l'existant
+        $entityManager->flush();
+        $this->addFlash('success', 'Modification avec succès');
+        
+        // Redirection après modification
+        return $this->redirectToRoute('app_log_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Afficher le formulaire avec les données actuelles
+    return $this->render('user/index.html.twig', [
+        'loginSite' => $loginSite,
+        'sites' => $siteRepository->findAll(),
+        'form' => $form->createView(),
+    ]);
+}
+
+
     
     #[Route('/api/login/json', name: 'app_json_afficher', methods: ['GET'])]
 public function jsonindex(LoginSiteRepository $loginSiteRepository ,SiteRepository $siteRepository): JsonResponse
@@ -183,17 +196,18 @@ public function jsonindex(LoginSiteRepository $loginSiteRepository ,SiteReposito
     $loginSites = $loginSiteRepository->findAll();
     $logindata = [];
     foreach ($loginSites as $loginSite) {
+        $site = $loginSite->getSite();  // Vérifiez d'abord si l'objet Site existe
         $logindata[] = [
             'id' => $loginSite->getId(),
             'nom' => $loginSite->getNameSite(),
             'login' => $loginSite->getLogin(),
             'password' => $loginSite->getMdp(),
-            'url' => $loginSite->getSite()->getUrl(),
-            'id-login' => $loginSite->getSite()->getIdLogin(),
-            'class-login' => $loginSite->getSite()->getClassLogin(),
-            'id-mdp' => $loginSite->getSite()->getIdMdp(),
-            'class-mdp' => $loginSite->getSite()->getClassMdp(),
-            'class-submit' => $loginSite->getSite()->getClassSubmit(),
+            'url' => $site ? $site->getUrl() : '',  // Si $site est null, mettez 'N/A' ou autre valeur par défaut
+            'id-login' => $site ? $site->getIdLogin() : '',
+            'class-login' => $site ? $site->getClassLogin() : '',
+            'id-mdp' => $site ? $site->getIdMdp() : '',
+            'class-mdp' => $site ? $site->getClassMdp() : '',
+            'class-submit' => $site ? $site->getClassSubmit() : '',
         ];
     }
 

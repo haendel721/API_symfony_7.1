@@ -47,7 +47,7 @@
         {% else %}
             <center>
                 <div class="container">
-                    <form method="post" action="{{ path('login_and_password', {'siteId': site.id}) }}">
+                    <form method="post" action="{{ path('login_simple_and_password', {'siteId': site.id}) }}">
                         <input type="text" id="nameSite" class="form-control" name="nameSite" readonly value="{{ site.name }}" required>
                         <div class="log_mdp input-group mb-3">
                             <input class="site" name="siteId" type="hidden" value="{{ site.id }}">
