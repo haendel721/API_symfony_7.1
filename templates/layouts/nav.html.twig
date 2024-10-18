@@ -44,13 +44,14 @@
                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">liste json</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{{ path('app_liste_user_json_afficher') }}">Liste des utilisateurs</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_user_json_afficher') }}">utilisateur connecter</a></li>
                     <li><a class="dropdown-item" href="{{ path('app_liste_site_json_afficher') }}">Liste des sites</a></li>
+                    
                     <li><a class="dropdown-item" href="{{ path('app_liste_site_Yes_json_afficher') }}">Plateformes Approuvés</a></li>
                     <li><a class="dropdown-item" href="{{ path('app_json_afficher') }}">login des plateformes</a></li>
                     <li><a class="dropdown-item" href="{{ path('app_liste_permission_json_afficher') }}">Liste des permissions </a></li>
                 </ul>
             </li>
-            
             <li class="nav-item">
                 <a class="nav-link text-white" href="{{ path('app_permission_index') }}">Permission</a>
             </li>
@@ -62,6 +63,8 @@
             <li class="nav-item">
                 <a class="nav-link text-white" href="{{ path('app_site_index') }}">Plateforme Approuvé</a>
             </li>
+            <li><a class="dropdown-item" href="{{ path('app_liste_site_Yes_json_afficher') }}">Plateformes Approuvés</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_user_json_afficher') }}">utilisateur json</a></li>
         {% endif %}
          <li class="nav-item">
             <a class="nav-link text-white" href="{{ path('app_apropos') }}">A propos</a>

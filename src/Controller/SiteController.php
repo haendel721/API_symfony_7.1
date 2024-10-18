@@ -61,37 +61,38 @@ class SiteController extends AbstractController
     }
 
     #[Route('/api/liste/site/Yes/json', name: 'app_liste_site_Yes_json_afficher', methods: ['GET'])]
-public function psiteautoriselistejsonindex(SiteRepository $siteRepository, Security $security): JsonResponse
-{
-    $user = $security->getUser(); // Obtenir l'utilisateur connecté
-    if (!$user) {
-        return new JsonResponse(['error' => 'Utilisateur non authentifié'], 401);
+    public function psiteautoriselistejsonindex(SiteRepository $siteRepository, Security $security): JsonResponse
+    {
+        $user = $security->getUser(); // Obtenir l'utilisateur connecté
+        if (!$user) {
+            return new JsonResponse(['error' => 'Utilisateur non authentifié'], 401);
+        }
+    
+        // Filtrer les sites autorisés pour l'utilisateur
+        $sitesAutorises = $siteRepository->findByUserPermissions($user); // Méthode à définir dans votre repository
+    
+        $sitedata = [];
+        foreach ($sitesAutorises as $site) {
+            $login = $site->getLogin(); // Obtenir l'objet LoginSite associé
+            $sitedata[] = [
+                'id' => $site->getId(),
+                'site' => $site->getName(),
+                'url' => $site->getUrl(),
+                'login' => $login ? $login->getLogin() : null, // Vérification si login existe
+                'password' => $login ? $login->getMdp() : null, // Vérification si mot de passe existe
+                'utilisateur' => $site->getUser() ? $site->getUser()->getName() : null, // Vérifier si un utilisateur est associé
+                'catégorie' => $site->getCategorySite() ? $site->getCategorySite()->getName() : null, // Vérification si une catégorie est associée
+                'id-login' => $site->getIdLogin(),
+                'class-login' => $site->getClassLogin(),
+                'id-mdp' => $site->getIdMdp(),
+                'class-mdp' => $site->getClassMdp(),
+                'class-submit' => $site->getClassSubmit(),
+            ];
+        }
+    
+        return new JsonResponse($sitedata);
     }
-
-    // Filtrer les sites autorisés pour l'utilisateur
-    $sitesAutorises = $siteRepository->findByUserPermissions($user); // Méthode à définir dans votre repository
-    // dd($sitesAutorises);
-    $sitedata = [];
-    foreach ($sitesAutorises as $sites) {
-        $sitedata[] = [
-            'id' => $sites->getId(),
-            'site' => $sites->getName(),
-            'url' => $sites->getUrl(),
-            'login' => $sites->getLogin()->getLogin(),
-            'password' => $sites->getLogin()->getMdp(),
-            'utilisateur' => $sites->getUser()->getName(),
-            'catégorie' => $sites->getCategorySite()->getName(),
-            'id-login' => $sites->getIdLogin(),
-            'class-login' => $sites->getClassLogin(),
-            'id-mdp' => $sites->getIdMdp(),
-            'class-mdp' => $sites->getClassMdp(),
-            'class-submit' => $sites->getClassSubmit(),
-        ];
-    }
-
-    return new JsonResponse($sitedata);
-}
-
+    
 
     #[Route('/liste', name: 'app_liste_site_index', methods: ['GET'])]
     public function ListeSIteIndex(SiteRepository $siteRepository ): Response

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserProfilSimpleController extends AbstractController
 {
@@ -28,7 +29,7 @@ class UserProfilSimpleController extends AbstractController
     #[Route("/site/login_simple/password/{siteId}", name:"login_simple_and_password", methods:["POST"])]
 public function login_and_password(Request $request, EntityManagerInterface $entityManager): Response
 {
-    // Récupérer les données du formulaire
+    // Récupérer les données du formulair
     $nameSite = $request->request->get('nameSite');
     $login = $request->request->get('login');
     $password = $request->request->get('password');
@@ -68,6 +69,34 @@ public function login_and_password(Request $request, EntityManagerInterface $ent
 
     // Rediriger vers une page de confirmation ou afficher un message
     return $this->redirectToRoute('app_user_profil_simple');
+}
+#[Route('/api/user/json', name: 'app_user_json_afficher', methods: ['GET'])]
+public function userlistejsonindex(): JsonResponse
+{
+    $user = $this->getUser(); // Récupérer l'utilisateur connecté
+
+    if (!$user) {
+        return new JsonResponse(['error' => 'Utilisateur non authentifié'], 401); // Gérer les cas où l'utilisateur n'est pas connecté
+    }
+
+    // Préparer les données de l'utilisateur connecté
+    $userdata = [
+        'id' => $user->getId(),
+        'e-mail' => $user->getEmail(),
+        'rôle' => $user->getRoles(),
+        'password' => $user->getPassword(),
+        'nom' => $user->getName(),
+        'prénom' => $user->getSurname(),
+        'date de naissance' => $user->getDateNaissance(),
+        'address' => $user->getLot(),
+        'image' => $user->getImage(),
+        'situation familiale' => $user->getSituationFamiliale(),
+        'lieu de naissance' => $user->getLieuNaissance(),
+        'genre' => $user->getGenre(),
+        'fonction' => $user->getFonction(),
+    ];
+
+    return new JsonResponse($userdata); // Retourner les données en format JSON
 }
 
 }
